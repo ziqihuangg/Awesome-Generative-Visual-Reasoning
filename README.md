@@ -14,7 +14,7 @@ Generative models are increasingly asked to **solve** visual problems rather tha
 
 We therefore organise the field by a question that is prior to the usual ones: **where does the reasoning competence actually come from?** Six sources appear in the literature and they are not interchangeable — regularities absorbed during pretraining, language models, multimodal models, simulators and formal systems, search and verifiable reward, and self-supervised predictive objectives. The medium in which a method writes its intermediate state, which we call the **carrier**, runs across these sources as a thread rather than forming a second hierarchy: a simulator has no choice about how to hand over its answer, while a multimodal model has four.
 
-Crossing the six sources with a classification of the reasoning tasks themselves produces the survey's main empirical result. **Formal rule-following is the most verifiable class of task in the field and is well supplied with benchmarks, yet not one of the 153 methods we review targets it, under any source.** The least verifiable class, by contrast, has methods and almost no benchmarks. Our task classification ([Section 1](#1.)) predicts this rather than merely recording it: a rule can be laid down only if it can already be said in discrete terms, so a task whose constraint is a stipulated rule tends to admit a symbolic route to its answer, and generating pixels to solve a problem that symbols already solve has nothing to recommend it. That turns an apparent hole in the literature into a boundary.
+Crossing the six sources with a classification of the reasoning tasks themselves produces the survey's main empirical result. **Formal rule-following is the most verifiable class of task in the field and is well supplied with benchmarks, yet not one of the 153 methods we review targets it, under any source.** The least verifiable class, by contrast, has methods and almost no benchmarks. Our task classification ([§1.5](#1.5.)) predicts this rather than merely recording it: a rule can be laid down only if it can already be said in discrete terms, so a task whose constraint is a stipulated rule tends to admit a symbolic route to its answer, and generating pixels to solve a problem that symbols already solve has nothing to recommend it. That turns an apparent hole in the literature into a boundary — and, read the other way, into a statement of which tasks generative visual reasoning is actually the right instrument for.
 
 It also yields two bounded claims in place of the usual one, and they are not equally strong. Measured over the 129 in-scope tasks we classify, **a single final state fails to carry the answer for 44% of them — for the 28% that ask for no endpoint at all it conveys nothing whatever — while vision itself does the inferential work in 88%**. The case for *visual* reasoning is therefore much firmer than the case for *video* specifically, and we try throughout not to assert the two with equal force.
 
@@ -40,6 +40,7 @@ Because the conditions are clauses, the boundary can be checked rather than asse
 Within this repository, we collect works that aim to answer some critical questions in this field, such as:
 
 - **Tasks**: What does correctness demand — a unique endpoint, any admissible one, or none at all — and does the constraint come from the world or from a stipulated rule? Which cells has the field left empty?
+- **Fit**: Which of those tasks actually need visual content to be generated, and which are better solved in text or symbols and merely drawn afterwards?
 - **Sources**: Where does a method's reasoning competence come from, and what can it therefore never get right?
 - **Carriers**: In what medium is the intermediate state written — language, structured symbols, visual states, continuous latents, or the generation itself — and what does each medium structurally fail to express?
 - **Read-out**: A generated image or video does not announce its answer. What extracts it, and how reliable is that extractor?
@@ -52,9 +53,8 @@ Within this repository, we collect works that aim to answer some critical questi
   - [1.2. A: One Right Endpoint](#1.2.)
   - [1.3. B: Many Right Endpoints](#1.3.)
   - [1.4. C: No Endpoint Is Asked For](#1.4.)
-  - [1.5. The Overlay: Is the Reasoning Actually Spatial?](#1.5.)
+  - [1.5. Which Tasks Need Generative Visual Reasoning, and Which Do Not](#1.5.)
   - [1.6. What Falls Outside, and Why](#1.6.)
-  - [1.7. The V1–V6 Rows, and How They Map](#1.7.)
 - [2. Sources of Reasoning Competence](#2.)
   - [2.1. S1: Regularities Absorbed from Data](#2.1.)
   - [2.2. S2: Language Models](#2.2.)
@@ -90,7 +90,7 @@ Two cuts. The **row** is what the task demands of the last frame, which decides 
 | **B** many right endpoints<br>*scored by membership* | **B1** · 29 tasks<br>how cloth drapes; water spilling; *and* throw the ball in, stack a standing tower | **B2** · 17 tasks<br>pour without spilling; drive collision-free; assemble in the manual's order | B1: 29/29<br>B2: **9/17** |
 | **C** no endpoint is asked<br>*scored by compliance* | **C1** · 33 tasks<br>the pendulum swinging; a flame burning; a crowd flowing; any fixed-horizon rollout | **C2** · 3 tasks<br>walk the way an old man walks; keep to this beat; demonstrate the procedure | C1: 33/33<br>C2: 3/3 |
 
-Three things fall out of this table and none of them is visible in a subject-matter taxonomy. **A checker exists only in the right column**, so verifiable reward is available there and nowhere else. **A comparable target exists only in row A**, so scoring a row-B or row-C task frame by frame against one recorded clip measures the wrong thing — that clip is a sample of the admissible set, not the answer. And **every task with a symbolic shortcut sits in the right column**, while all 95 tasks in the left column need spatial work, which is the quantitative form of the claim that vision is doing the reasoning rather than decorating it.
+Three things fall out of this table and none of them is visible in a subject-matter taxonomy. **A checker exists only in the right column**, so verifiable reward is available there and nowhere else. **A comparable target exists only in row A**, so scoring a row-B or row-C task frame by frame against one recorded clip measures the wrong thing — that clip is a sample of the admissible set, not the answer. And **every task with a symbolic shortcut sits in the right column**, while all 95 tasks in the left column need spatial work, which is the quantitative form of the claim that vision is doing the reasoning rather than decorating it. That third column is also how the table answers *which of these tasks generative visual reasoning is the right instrument for*, and which are better solved in text or symbols and merely drawn afterwards ([§1.5](#1.5.)).
 
 ### The Six Sources
 
@@ -151,7 +151,7 @@ The fourth row is why **verifiable reward is available for stipulated-rule tasks
 
 Where a task has no judgeable process at all — a single static endpoint, such as a furniture layout delivered as one image — the second cut falls back to asking what settles the endpoint.
 
-Crossing the two cuts gives six cells. **Counts below are tasks, not papers.** They come from a 182-task table (129 of them in scope) built partly from benchmarks this survey never cites, so that coverage is tested rather than assumed; the relabelling of the 220 papers onto these cells is in progress, and the method counts quoted elsewhere in this README still refer to the V1–V6 rows of [§1.7](#1.7.).
+Crossing the two cuts gives six cells. **Counts below are tasks, not papers.** They come from a 182-task table (129 of them in scope) built partly from benchmarks this survey never cites, so that coverage is tested rather than assumed. Filing each of the 220 papers onto a cell is a separate pass and is still in progress, so the paper lists in [§2](#2.) and [§3](#3.) are grouped by source and carrier rather than by cell.
 
 <a name="1.2."></a>
 ### 1.2. A: One Right Endpoint
@@ -192,20 +192,29 @@ This row is the ground on which the claim about dense continuous evolution actua
 C2 is the thinnest cell of the six by a wide margin. A stipulated manner with no endpoint asked for — perform this in a specified way, indefinitely — is barely studied, and we flag it as a structural gap rather than an oversight of ours.
 
 <a name="1.5."></a>
-### 1.5. The Overlay: Is the Reasoning Actually Spatial?
+### 1.5. Which Tasks Need Generative Visual Reasoning, and Which Do Not
 
-The two cuts above describe a **logical structure that is indifferent to modality**: endpoint determinacy and constraint source apply just as well to a text-only task. Left there, the classification would be general reasoning wearing a visual coat. So there is a third criterion, and it is read as an overlay rather than a branch.
+The two cuts above describe a **logical structure that is indifferent to modality**: endpoint determinacy and constraint source apply just as well to a task stated entirely in words. Left there, the classification would be general reasoning wearing a visual coat. A third criterion decides whether generating visual content is the right instrument for a task at all. It is read as an overlay on the six cells rather than as a further branch, because it cuts across them.
 
 Visual necessity has two levels, and only the second discriminates:
 
-- **Is the output visual?** Nearly every task in the table satisfies this, so it separates almost nothing.
+- **Is the output visual?** Nearly every task in the table satisfies this, so it separates almost nothing. It is also the level at which the question is usually asked, which is why the usual answers are uninformative.
 - **Does spatial simulation do the inferential work?** This is the question that matters.
 
 ```
 sim(task) ∈ { spatial, symbolic }
 ```
 
-**Read it about the inference, never about perception.** Every task needs sight to read the scene — even a photographed maze must be seen before it can be solved — which is exactly why the perceptual level cannot classify anything. The test is: *can the task be written, without loss, as discrete states plus a finite rule set whose size does not grow with the geometry of the scene?* If yes it is `symbolic`, and drawing the answer is rendering rather than reasoning.
+**The test.** *Can the task be written, without loss, as discrete states plus a finite rule set whose size does not grow with the geometry of the scene?* If it can, the task is `symbolic`; if it cannot, it is `spatial`.
+
+**Read the test about the inference, never about perception.** Every task here needs sight to read the scene — even a photographed sudoku must be seen before it can be solved — which is exactly why the perceptual level classifies nothing. What the test asks is what happens *after* the scene has been read: whether getting to the answer means carrying a continuous spatial configuration forward, or manipulating a handful of discrete tokens.
+
+| | **`spatial` — generating visual content is doing the reasoning** | **`symbolic` — text or symbolic reasoning is the right instrument** |
+| --- | --- | --- |
+| What reaching the answer requires | Carrying a continuous configuration forward: contact, occlusion, deformation, extent, and where things stand relative to each other | Manipulating a finite set of discrete states under rules that are already written down |
+| Why the other medium fails | Language and symbols cannot say *where*, *how much*, or *exactly when* without discretising the very quantity the answer turns on, and the rule set needed would have to grow with the geometry | Pixels add nothing the solver did not already have. The image renders an answer that was found elsewhere, and generating it only adds a chance to draw it wrong |
+| Examples | Where a dropped ball comes to rest; what solid a flat net folds into; how cloth drapes; whether this pour will spill; what is behind the occluder; the angle found by drawing the auxiliary line | The filled sudoku grid; the unique mate in two; a maze route once the maze is a graph; arithmetic written out; ordering discrete narrative units |
+| Where it sits | The whole world column, plus the geometric part of the rule column | Inside the stipulated-rule column only |
 
 Over the 129 in-scope tasks:
 
@@ -215,9 +224,11 @@ Over the 129 in-scope tasks:
 | **Rule column** (A2, B2, C2) | 18 | **16** |
 | Total | **113 (88%)** | 16 (12%) |
 
-**Every symbolic task sits in the stipulated-rule column, and not one of the 95 world-constrained tasks has a symbolic route.** That is not a coincidence. A rule can be laid down only if it can already be said in discrete terms, so stipulability *is* symbolisability; the world carries no comparable rule set at the scale of a scene.
+**Every symbolic task sits in the stipulated-rule column, and not one of the 95 world-constrained tasks has a symbolic route.** That is not a coincidence. A rule can be laid down only if it can already be said in discrete terms, so stipulability *is* symbolisability; the world carries no comparable rule set at the scale of a scene. The overlay therefore does not cut the grid at random — it eats into one column and leaves the other whole.
 
-Two consequences. First, this is the measured answer to *which tasks native visual reasoning is for*: the `spatial` ones, meaning the whole world column plus the geometric half of the rule column. Second, the 16 symbolic tasks are where the objection "this is general reasoning with a visual shell" genuinely lands, and we would rather state that than let it pass — script-to-storyboard and short-drama generation are the uncomfortable cases, since ordering discrete narrative units admits a symbolic route and needs an argument we do not yet have.
+This is the survey's answer to what generative visual reasoning is *for*, and it has a positive and a negative half. Positively, the 113 `spatial` tasks are the ones where nothing cheaper will do: no amount of describing the scene recovers the answer, because the answer depends on quantities that description throws away. Negatively, for the 16 `symbolic` tasks the honest recommendation is to solve the problem symbolically and render afterwards if a picture is wanted; a generator asked to *derive* the answer in pixels is competing with a solver that cannot get it wrong. **This is also why the field's most conspicuous hole is a boundary rather than an oversight**: formal rule-following is the most verifiable class of task and is well supplied with benchmarks, yet no method in our corpus targets it, and the overlay says why — generating pixels to solve a problem that symbols already solve has nothing to recommend it.
+
+One caveat we would rather state than let pass. The 16 `symbolic` tasks are exactly where the objection "this is general reasoning with a visual shell" genuinely lands, and two of them are uncomfortable: script-to-storyboard and short-drama generation involve ordering discrete narrative units, which admits a symbolic route, yet the field treats them as visual problems. That needs an argument we do not yet have.
 
 <a name="1.6."></a>
 ### 1.6. What Falls Outside, and Why
@@ -235,75 +246,6 @@ Each also fails a nameable clause of the definition, which is what makes the bou
 
 Two boundary rules are worth stating because they are commonly got wrong. **Low-level restoration is not excluded as a batch.** The corner is defined by the input *entailing* the answer, not by a task sounding low-level: denoising is a reversible degradation, but greyscale does not entail colour and a mask leaves no trace of what it covers, so colourisation, non-entailed inpainting and outpainting are ordinary B1 tasks. And **degeneracy is a property of the query, not of the output format**: segmenting a visible boundary is excluded, while segmenting *the object that will fall next* is A1 with a mask for an answer.
 
-<a name="1.7."></a>
-### 1.7. The V1–V6 Rows, and How They Map
-
-Earlier drafts graded problems by *what grounds a correct answer* into six rows, V1–V6. The method and instrument counts quoted in this README still come from those labels, so they are kept here until the relabelling is finished. There is no mechanical mapping: every row splits.
-
-| Row | Where it goes |
-| --- | --- |
-| **V1** Physical law | Landing point pinned → A1; evolution admitting many endings → B1; periodic or open-horizon → C1; counterfactual renderings mostly B1 |
-| **V2** Structural persistence | Mostly A1; layout *generation* → B2 if the arrangement is underdetermined, excluded if already fixed |
-| **V3** Formal rules | A2 and B2, and this is where the zero-method result sits — [§1.5](#1.5.) predicts it should sit on the symbolic half specifically |
-| **V4** Goal attainment | Predicting the rollout → C1 under the arbitrary-horizon test; finding the actions → B2 |
-| **V5** Procedure and order | Mostly B2; reordering with a unique true order → A1 |
-| **V6** Convention and intent | Predicting what an agent does → A1; shot arrangement → B2, and symbolic there ([§1.5](#1.5.)); conventions the prompt states outright → excluded |
-| **V0** | Not a grounding: splits across all four exclusions in [§1.6](#1.6.) |
-| **VX** | Targets no single grounding by construction; no cell |
-
-<!-- auto:prob -->
-*The 153 methods by the row they target. This is the labelling the counts above are computed from; papers will be re-filed onto the A1–C2 cells as that pass completes. Benchmarks for the same rows are in [§4.1](#4.1.), and the coverage they produce is read in [§5](#5.).*
-
-**V1 · Physical law** · 45
-
-- **S2** — [Event-Centric Causal Thought](https://arxiv.org/abs/2603.09094), [PhyT2V](https://arxiv.org/abs/2412.00596), [WISA](https://arxiv.org/abs/2503.08153), [PhysVid](https://arxiv.org/abs/2603.26285)
-- **S3** — [VChain](https://arxiv.org/abs/2510.05094), [Think Before You Diffuse](https://arxiv.org/abs/2505.21653), [VLIPP](https://arxiv.org/abs/2503.23368), [VLM Self-Refinement](https://arxiv.org/abs/2511.20280), [VIPER (2026)](https://arxiv.org/abs/2607.23472), [SiPhy](https://arxiv.org/abs/2607.22355), [Physics Context Builders](https://arxiv.org/abs/2412.08619), [Compositional Physical Reasoning](https://arxiv.org/abs/2408.02687)
-- **S4** — [PhyRPR](https://arxiv.org/abs/2601.09255), [CausalMotion](https://arxiv.org/abs/2606.14317), [PhysGen](https://arxiv.org/abs/2409.18964), [PhysChoreo](https://arxiv.org/abs/2511.20562), [NewtonGen](https://arxiv.org/abs/2509.21309), [PhyMAGIC](https://arxiv.org/abs/2505.16456), [Phantom](https://arxiv.org/abs/2604.08503), [PhysRAG](https://arxiv.org/abs/2606.26916), [PhysVideoGenerator](https://arxiv.org/abs/2601.03665), [Simulator-in-the-Loop](https://arxiv.org/abs/2603.06408), [PhysCtrl](https://arxiv.org/abs/2509.20358), [PhyParam](https://arxiv.org/abs/2607.18924), [Equation Discovery + Trajectory](https://arxiv.org/abs/2507.06830), [Physics-Guided Interactions](https://arxiv.org/abs/2510.02284), [Goal Force](https://arxiv.org/abs/2601.05848), [PhiZero](https://arxiv.org/abs/2607.28624), [ODEWorld](https://arxiv.org/abs/2607.27924), [DeforM](https://arxiv.org/abs/2607.18664), [PhysEditWorld](https://arxiv.org/abs/2606.26694), [APT](https://arxiv.org/abs/2606.18586), [PhysGM](https://arxiv.org/abs/2508.13911), [Physics3D](https://arxiv.org/abs/2406.04338)
-- **S5** — [PhysRVG](https://arxiv.org/abs/2601.11087), [NEWTON](https://arxiv.org/abs/2605.18396), [PhyGDPO](https://arxiv.org/abs/2512.24551), [VJEPA-2 Reward](https://arxiv.org/abs/2510.21840), [Phys-AR / Timestep Tokens](https://arxiv.org/abs/2504.15932), [Planning with Sketch-Guided Verification](https://arxiv.org/abs/2511.17450)
-- **S6** — [VideoREPA](https://arxiv.org/abs/2505.23656), [PhysAlign](https://arxiv.org/abs/2603.13770), [MoE Latent Alignment](https://arxiv.org/abs/2606.04737), [ProPhy](https://arxiv.org/abs/2512.05564), [DiReCT](https://arxiv.org/abs/2603.25931)
-
-**V2 · Structural persistence** · 20
-
-- **S1** — [FreqForcing](https://arxiv.org/abs/2607.27110), [TaoMate](https://arxiv.org/abs/2607.24359), [Diffusion over Diffusion](https://arxiv.org/abs/2303.12346), [Advancing Narrative Long Video](https://arxiv.org/abs/2605.18733), [FreeNoise](https://arxiv.org/abs/2310.15169), [FIFO-Diffusion](https://arxiv.org/abs/2405.11473), [StreamingT2V](https://arxiv.org/abs/2403.14773)
-- **S2** — [LLM-grounded Video Diffusion](https://arxiv.org/abs/2309.17444), [VideoDirectorGPT](https://arxiv.org/abs/2309.15091), [CinemaTraj](https://arxiv.org/abs/2607.26910)
-- **S3** — [Narrative Weaver](https://arxiv.org/abs/2603.06688)
-- **S4** — [OrthoPhys](https://arxiv.org/abs/2603.18639), [ReVision](https://arxiv.org/abs/2504.21855), [3D Scene Prompting](https://arxiv.org/abs/2510.14945), [Diffusion as Shader](https://arxiv.org/abs/2501.03847), [Generative Rendering](https://arxiv.org/abs/2312.01409)
-- **S5** — [CoAgent](https://arxiv.org/abs/2512.22536), [VIGOR](https://arxiv.org/abs/2603.16271), [InfLVG](https://arxiv.org/abs/2505.17574)
-- **S6** — [Mitigating Compounding Error](https://arxiv.org/abs/2607.27036)
-
-**V3 · Formal rules** — no methods.
-
-**V4 · Goal attainment** · 42
-
-- **S1** — [Orbis 2](https://arxiv.org/abs/2607.15898), [DriftWorld](https://arxiv.org/abs/2607.15065), [GigaWorld-Policy-0.5](https://arxiv.org/abs/2607.13960), [Ego-Dynamics-Augmented World Model](https://arxiv.org/abs/2607.13410), [DreamDojo](https://arxiv.org/abs/2602.06949), [Generative World Modelling for Humanoids](https://arxiv.org/abs/2510.07092), [Navigation World Models](https://arxiv.org/abs/2412.03572), [TeleWorld](https://arxiv.org/abs/2601.00051), [GigaWorld-0](https://arxiv.org/abs/2511.19861), [Adapting Video Diffusion Models](https://arxiv.org/abs/2410.12822), [GAIA-1](https://arxiv.org/abs/2309.17080), [GameNGen](https://arxiv.org/abs/2408.14837), [Genie](https://arxiv.org/abs/2402.15391), [UniSim](https://arxiv.org/abs/2310.06114), [DriveDreamer](https://arxiv.org/abs/2309.09777), [Drive-WM](https://arxiv.org/abs/2311.17918), [WorldDreamer](https://arxiv.org/abs/2402.17144), [Cosmos World Foundation Model](https://arxiv.org/abs/2501.03575)
-- **S2** — [EA-WM](https://arxiv.org/abs/2606.13053)
-- **S4** — [From Passive Video to Editable Experience](https://arxiv.org/abs/2607.26903), [ContactFlow](https://arxiv.org/abs/2607.26579), [DeVA](https://arxiv.org/abs/2607.24159), [Robot-Factored World Models](https://arxiv.org/abs/2607.22535), [Mind-Studio](https://arxiv.org/abs/2606.16070), [CausalDrive](https://arxiv.org/abs/2606.15341)
-- **S5** — [PAVXploreRL](https://arxiv.org/abs/2607.16602), [Action Agent](https://arxiv.org/abs/2605.01477), [Grounding Video Models](https://arxiv.org/abs/2411.07223)
-- **S6** — [EgoGenesis](https://arxiv.org/abs/2607.28243), [QQWorld](https://arxiv.org/abs/2607.28415), [Enfold](https://arxiv.org/abs/2607.26657), [Temporally Centered SIGReg Improves Multi-Task](https://arxiv.org/abs/2607.26924), [Temporal-Distance JEPA](https://arxiv.org/abs/2607.25337), [Reinformed Dreamer](https://arxiv.org/abs/2607.26040), [INTACT](https://arxiv.org/abs/2607.26056), [Concept-Guided Spatial Regularization](https://arxiv.org/abs/2607.15142), [Depth-Regularized JEPA World Models](https://arxiv.org/abs/2607.16314), [WAM4D](https://arxiv.org/abs/2606.14048), [V-JEPA 2](https://arxiv.org/abs/2506.09985), [DriveLaW](https://arxiv.org/abs/2512.23421), [Motus](https://arxiv.org/abs/2512.13030), [Video Prediction Policy](https://arxiv.org/abs/2412.14803)
-
-**V5 · Procedure & order** · 7
-
-- **S2** — [Automated Movie Generation](https://arxiv.org/abs/2503.07314), [MAViS](https://arxiv.org/abs/2508.08487), [StoryAgent](https://arxiv.org/abs/2411.04925), [Mora](https://arxiv.org/abs/2403.13248)
-- **S5** — [ViMax](https://arxiv.org/abs/2606.07649), [Closed-Loop Triplet Synergistic Generation](https://arxiv.org/abs/2606.16184), [AesopAgent](https://arxiv.org/abs/2403.07952)
-
-**V6 · Convention & intent** · 7
-
-- **S2** — [DirectorLLM](https://arxiv.org/abs/2412.14484), [CineVerse](https://arxiv.org/abs/2504.19894), [Camera Artist](https://arxiv.org/abs/2604.09195), [DramaDirector](https://arxiv.org/abs/2606.24107)
-- **S3** — [CANVAS](https://arxiv.org/abs/2604.13452)
-- **S5** — [StoryBlender](https://arxiv.org/abs/2604.03315)
-- **S6** — [Mental World Modeling](https://arxiv.org/abs/2607.27201)
-
-**VX · General purpose** · 15
-
-- **S3** — [Exploring MLLM-Diffusion Information Transfer](https://arxiv.org/abs/2512.11464), [MetaQueries](https://arxiv.org/abs/2504.06256), [CoCoVa](https://arxiv.org/abs/2511.02360), [Continuous Visual Tokens](https://arxiv.org/abs/2511.19418), [VTI-CoT](https://arxiv.org/abs/2606.05736), [Gen-VCoT](https://arxiv.org/abs/2606.16783), [ProLaViT](https://arxiv.org/abs/2607.02907)
-- **S5** — [OpenCoF](https://arxiv.org/abs/2607.08763), [Self-Refining Sampling](https://arxiv.org/abs/2601.18577), [Verifiable Rewards](https://arxiv.org/abs/2605.15458), [UniT](https://arxiv.org/abs/2602.12279), [Video-T1](https://arxiv.org/abs/2503.18942), [Thinking in Frames](https://arxiv.org/abs/2601.21037), [Temporal Backtracking Search](https://arxiv.org/abs/2606.13861), [CollabVR](https://arxiv.org/abs/2605.08735)
-
-**V0 · Outside the paradigm** · 17
-
-- **S1** — [Visko Orbis 1.0](https://arxiv.org/abs/2607.26694), [Inferix](https://arxiv.org/abs/2511.20714), [ConsistI2V](https://arxiv.org/abs/2402.04324), [Video Diffusion Models (2022)](https://arxiv.org/abs/2204.03458), [Imagen Video](https://arxiv.org/abs/2210.02303), [Make-A-Video](https://arxiv.org/abs/2209.14792), [Phenaki](https://arxiv.org/abs/2210.02399), [VideoPoet](https://arxiv.org/abs/2312.14125), [Lumiere](https://arxiv.org/abs/2401.12945), [Stable Video Diffusion](https://arxiv.org/abs/2311.15127), [Text2Video-Zero](https://arxiv.org/abs/2303.13439), [VideoComposer](https://arxiv.org/abs/2306.02018), [AnimateDiff](https://arxiv.org/abs/2307.04725), [DragNUWA](https://arxiv.org/abs/2308.08089), [MotionCtrl](https://arxiv.org/abs/2312.03641), [CameraCtrl](https://arxiv.org/abs/2404.02101)
-- **S5** — [Inference-Time Scaling for Joint](https://arxiv.org/abs/2606.03183)
-<!-- /auto:prob -->
-
 <a name="2."></a>
 ## 2. Sources of Reasoning Competence
 
@@ -316,69 +258,69 @@ The spine of the survey. Methods are filed by the source their competence comes 
 Pretraining itself. Enough video contains enough falling, colliding and pouring that a generator absorbs a broad prior over dynamics without being told a law — broad coverage with a low ceiling, which is the profile that motivates every other source.
 
 <!-- auto:s1 -->
-*41 methods, in 7 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*41 methods, in 7 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **Text-to-Video Foundations** · 9
 
-- [ConsistI2V: Enhancing Visual Consistency for Image-to-Video Generation](https://arxiv.org/abs/2402.04324) · arXiv 2024 · `V0`
-- [Video Diffusion Models](https://arxiv.org/abs/2204.03458) · arXiv 2022 · `V0`
-- [Imagen Video: High Definition Video Generation with Diffusion Models](https://arxiv.org/abs/2210.02303) · arXiv 2022 · `V0`
-- [Make-A-Video: Text-to-Video Generation without Text-Video Data](https://arxiv.org/abs/2209.14792) · arXiv 2022 · `V0`
-- [VideoPoet: A Large Language Model for Zero-Shot Video Generation](https://arxiv.org/abs/2312.14125) · arXiv 2023 · `V0`
-- [Lumiere: A Space-Time Diffusion Model for Video Generation](https://arxiv.org/abs/2401.12945) · arXiv 2024 · `V0`
-- [Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets](https://arxiv.org/abs/2311.15127) · arXiv 2023 · `V0`
-- [Text2Video-Zero: Text-to-Image Diffusion Models are Zero-Shot Video Generators](https://arxiv.org/abs/2303.13439) · arXiv 2023 · `V0`
-- [AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725) · arXiv 2023 · `V0`
+- [ConsistI2V: Enhancing Visual Consistency for Image-to-Video Generation](https://arxiv.org/abs/2402.04324) · arXiv 2024
+- [Video Diffusion Models](https://arxiv.org/abs/2204.03458) · arXiv 2022
+- [Imagen Video: High Definition Video Generation with Diffusion Models](https://arxiv.org/abs/2210.02303) · arXiv 2022
+- [Make-A-Video: Text-to-Video Generation without Text-Video Data](https://arxiv.org/abs/2209.14792) · arXiv 2022
+- [VideoPoet: A Large Language Model for Zero-Shot Video Generation](https://arxiv.org/abs/2312.14125) · arXiv 2023
+- [Lumiere: A Space-Time Diffusion Model for Video Generation](https://arxiv.org/abs/2401.12945) · arXiv 2024
+- [Stable Video Diffusion: Scaling Latent Video Diffusion Models to Large Datasets](https://arxiv.org/abs/2311.15127) · arXiv 2023
+- [Text2Video-Zero: Text-to-Image Diffusion Models are Zero-Shot Video Generators](https://arxiv.org/abs/2303.13439) · arXiv 2023
+- [AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725) · arXiv 2023
 
 **Long & Streaming Video** · 6
 
-- [Visko Orbis 1.0: A Live Model for Real-Time Interactive Long Video Generation](https://arxiv.org/abs/2607.26694) · arXiv 2026 · `V0`
-- [Diffusion over Diffusion for eXtremely Long Video Generation](https://arxiv.org/abs/2303.12346) · arXiv 2023 · `V2`
-- [Phenaki: Variable Length Video Generation From Open Domain Textual Description](https://arxiv.org/abs/2210.02399) · arXiv 2022 · `V0`
-- [FreeNoise: Tuning-Free Longer Video Diffusion via Noise Rescheduling](https://arxiv.org/abs/2310.15169) · arXiv 2023 · `V2`
-- [FIFO-Diffusion: Generating Infinite Videos from Text without Training](https://arxiv.org/abs/2405.11473) · arXiv 2024 · `V2`
-- [StreamingT2V: Consistent, Dynamic, and Extendable Long Video Generation from Text](https://arxiv.org/abs/2403.14773) · arXiv 2024 · `V2`
+- [Visko Orbis 1.0: A Live Model for Real-Time Interactive Long Video Generation](https://arxiv.org/abs/2607.26694) · arXiv 2026
+- [Diffusion over Diffusion for eXtremely Long Video Generation](https://arxiv.org/abs/2303.12346) · arXiv 2023
+- [Phenaki: Variable Length Video Generation From Open Domain Textual Description](https://arxiv.org/abs/2210.02399) · arXiv 2022
+- [FreeNoise: Tuning-Free Longer Video Diffusion via Noise Rescheduling](https://arxiv.org/abs/2310.15169) · arXiv 2023
+- [FIFO-Diffusion: Generating Infinite Videos from Text without Training](https://arxiv.org/abs/2405.11473) · arXiv 2024
+- [StreamingT2V: Consistent, Dynamic, and Extendable Long Video Generation from Text](https://arxiv.org/abs/2403.14773) · arXiv 2024
 
 **End-to-End Control Interfaces** · 4
 
-- [VideoComposer: Compositional Video Synthesis with Motion Controllability](https://arxiv.org/abs/2306.02018) · arXiv 2023 · `V0`
-- [DragNUWA: Fine-grained Control in Video Generation by Integrating Text, Image, and Trajectory](https://arxiv.org/abs/2308.08089) · arXiv 2023 · `V0`
-- [MotionCtrl: A Unified and Flexible Motion Controller for Video Generation](https://arxiv.org/abs/2312.03641) · arXiv 2023 · `V0`
-- [CameraCtrl: Enabling Camera Control for Text-to-Video Generation](https://arxiv.org/abs/2404.02101) · arXiv 2024 · `V0`
+- [VideoComposer: Compositional Video Synthesis with Motion Controllability](https://arxiv.org/abs/2306.02018) · arXiv 2023
+- [DragNUWA: Fine-grained Control in Video Generation by Integrating Text, Image, and Trajectory](https://arxiv.org/abs/2308.08089) · arXiv 2023
+- [MotionCtrl: A Unified and Flexible Motion Controller for Video Generation](https://arxiv.org/abs/2312.03641) · arXiv 2023
+- [CameraCtrl: Enabling Camera Control for Text-to-Video Generation](https://arxiv.org/abs/2404.02101) · arXiv 2024
 
 **General & Interactive Simulators** · 6
 
-- [Adapting Video Diffusion Models to World Models](https://arxiv.org/abs/2410.12822) · arXiv 2024 · `V4`
-- [GameNGen: Diffusion Models Are Real-Time Game Engines](https://arxiv.org/abs/2408.14837) · arXiv 2024 · `V4`
-- [Genie: Generative Interactive Environments](https://arxiv.org/abs/2402.15391) · arXiv 2024 · `V4`
-- [UniSim: Learning Interactive Real-World Simulators](https://arxiv.org/abs/2310.06114) · arXiv 2023 · `V4`
-- [WorldDreamer: Towards General World Models for Video Generation via Predicting Masked Tokens](https://arxiv.org/abs/2402.17144) · arXiv 2024 · `V4`
-- [Cosmos World Foundation Model Platform for Physical AI](https://arxiv.org/abs/2501.03575) · arXiv 2025 · `V4`
+- [Adapting Video Diffusion Models to World Models](https://arxiv.org/abs/2410.12822) · arXiv 2024
+- [GameNGen: Diffusion Models Are Real-Time Game Engines](https://arxiv.org/abs/2408.14837) · arXiv 2024
+- [Genie: Generative Interactive Environments](https://arxiv.org/abs/2402.15391) · arXiv 2024
+- [UniSim: Learning Interactive Real-World Simulators](https://arxiv.org/abs/2310.06114) · arXiv 2023
+- [WorldDreamer: Towards General World Models for Video Generation via Predicting Masked Tokens](https://arxiv.org/abs/2402.17144) · arXiv 2024
+- [Cosmos World Foundation Model Platform for Physical AI](https://arxiv.org/abs/2501.03575) · arXiv 2025
 
 **Driving World Models** · 6
 
-- [Orbis 2: A Hierarchical World Model for Driving](https://arxiv.org/abs/2607.15898) · arXiv 2026 · `V4`
-- [DriftWorld: Fast World Modeling through Drifting](https://arxiv.org/abs/2607.15065) · arXiv 2026 · `V4`
-- [Ego-Dynamics-Augmented World Model for Autonomous Driving with Zero-Shot Cross-Chassis Adaptation](https://arxiv.org/abs/2607.13410) · arXiv 2026 · `V4`
-- [GAIA-1: A Generative World Model for Autonomous Driving](https://arxiv.org/abs/2309.17080) · arXiv 2023 · `V4`
-- [DriveDreamer: Towards Real-world-driven World Models for Autonomous Driving](https://arxiv.org/abs/2309.09777) · arXiv 2023 · `V4`
-- [Drive-WM: Driving into the Future with Multiview Visual Forecasting and Planning](https://arxiv.org/abs/2311.17918) · arXiv 2023 · `V4`
+- [Orbis 2: A Hierarchical World Model for Driving](https://arxiv.org/abs/2607.15898) · arXiv 2026
+- [DriftWorld: Fast World Modeling through Drifting](https://arxiv.org/abs/2607.15065) · arXiv 2026
+- [Ego-Dynamics-Augmented World Model for Autonomous Driving with Zero-Shot Cross-Chassis Adaptation](https://arxiv.org/abs/2607.13410) · arXiv 2026
+- [GAIA-1: A Generative World Model for Autonomous Driving](https://arxiv.org/abs/2309.17080) · arXiv 2023
+- [DriveDreamer: Towards Real-world-driven World Models for Autonomous Driving](https://arxiv.org/abs/2309.09777) · arXiv 2023
+- [Drive-WM: Driving into the Future with Multiview Visual Forecasting and Planning](https://arxiv.org/abs/2311.17918) · arXiv 2023
 
 **Robot & Embodied World Models** · 6
 
-- [GigaWorld-Policy-0.5: A Faster and Stronger WAM Empowered by AutoResearch](https://arxiv.org/abs/2607.13960) · arXiv 2026 · `V4`
-- [DreamDojo: A Generalist Robot World Model from Large-Scale Human Videos](https://arxiv.org/abs/2602.06949) · arXiv 2026 · `V4`
-- [Generative World Modelling for Humanoids: 1X World Model Challenge Technical Report](https://arxiv.org/abs/2510.07092) · arXiv 2025 · `V4`
-- [Navigation World Models](https://arxiv.org/abs/2412.03572) · arXiv 2024 · `V4`
-- [TeleWorld: Towards Dynamic Multimodal Synthesis with a 4D World Model](https://arxiv.org/abs/2601.00051) · arXiv 2026 · `V4`
-- [GigaWorld-0: World Models as Data Engine to Empower Embodied AI](https://arxiv.org/abs/2511.19861) · arXiv 2025 · `V4`
+- [GigaWorld-Policy-0.5: A Faster and Stronger WAM Empowered by AutoResearch](https://arxiv.org/abs/2607.13960) · arXiv 2026
+- [DreamDojo: A Generalist Robot World Model from Large-Scale Human Videos](https://arxiv.org/abs/2602.06949) · arXiv 2026
+- [Generative World Modelling for Humanoids: 1X World Model Challenge Technical Report](https://arxiv.org/abs/2510.07092) · arXiv 2025
+- [Navigation World Models](https://arxiv.org/abs/2412.03572) · arXiv 2024
+- [TeleWorld: Towards Dynamic Multimodal Synthesis with a 4D World Model](https://arxiv.org/abs/2601.00051) · arXiv 2026
+- [GigaWorld-0: World Models as Data Engine to Empower Embodied AI](https://arxiv.org/abs/2511.19861) · arXiv 2025
 
 **Memory & Error Control (training-free)** · 4
 
-- [FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring](https://arxiv.org/abs/2607.27110) · arXiv 2026 · `V2`
-- [TaoMate: Anchor-Guided Memory Bridging Evolving and Reference States for Real-Time Audio-Video Digital Human Generation](https://arxiv.org/abs/2607.24359) · arXiv 2026 · `V2`
-- [Inferix: A Block-Diffusion based Next-Generation Inference Engine for World Simulation](https://arxiv.org/abs/2511.20714) · arXiv 2025 · `V0`
-- [Advancing Narrative Long Video Generation via Training-Free Identity-Aware Memory](https://arxiv.org/abs/2605.18733) · arXiv 2026 · `V2`
+- [FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring](https://arxiv.org/abs/2607.27110) · arXiv 2026
+- [TaoMate: Anchor-Guided Memory Bridging Evolving and Reference States for Real-Time Audio-Video Digital Human Generation](https://arxiv.org/abs/2607.24359) · arXiv 2026
+- [Inferix: A Block-Diffusion based Next-Generation Inference Engine for World Simulation](https://arxiv.org/abs/2511.20714) · arXiv 2025
+- [Advancing Narrative Long Video Generation via Training-Free Identity-Aware Memory](https://arxiv.org/abs/2605.18733) · arXiv 2026
 <!-- /auto:s1 -->
 
 <a name="2.2."></a>
@@ -387,38 +329,38 @@ Pretraining itself. Enough video contains enough falling, colliding and pouring 
 Entering as a rewriter, which enriches an underspecified prompt with the physical effects a scene implies, or as a planner, which decomposes a request into a shot list, scene graph or layout sequence.
 
 <!-- auto:s2 -->
-*16 methods, in 5 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*16 methods, in 5 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **Prompt-Level Physics Injection** · 3
 
-- [PhyT2V: LLM-Guided Iterative Self-Refinement for Physics-Grounded Text-to-Video Generation](https://arxiv.org/abs/2412.00596) · arXiv 2024 · `natural language` `V1`
-- [WISA: World Simulator Assistant for Physics-Aware Text-to-Video Generation](https://arxiv.org/abs/2503.08153) · arXiv 2025 · `natural language` `V1`
-- [PhysVid: Physics Aware Local Conditioning for Generative Video Models](https://arxiv.org/abs/2603.26285) · arXiv 2026 · `natural language` `V1`
+- [PhyT2V: LLM-Guided Iterative Self-Refinement for Physics-Grounded Text-to-Video Generation](https://arxiv.org/abs/2412.00596) · arXiv 2024 · `natural language`
+- [WISA: World Simulator Assistant for Physics-Aware Text-to-Video Generation](https://arxiv.org/abs/2503.08153) · arXiv 2025 · `natural language`
+- [PhysVid: Physics Aware Local Conditioning for Generative Video Models](https://arxiv.org/abs/2603.26285) · arXiv 2026 · `natural language`
 
 **LLM Layout & Scene Planning** · 4
 
-- [LLM-grounded Video Diffusion Models](https://arxiv.org/abs/2309.17444) · arXiv 2023 · `structured symbols` `V2`
-- [VideoDirectorGPT: Consistent Multi-scene Video Generation via LLM-Guided Planning](https://arxiv.org/abs/2309.15091) · arXiv 2023 · `structured symbols` `V2`
-- [DirectorLLM for Human-Centric Video Generation](https://arxiv.org/abs/2412.14484) · arXiv 2024 · `structured symbols` `V6`
-- [CinemaTraj: Composing Atomic Camera Trajectories for 3D Scenes with LLM Agents](https://arxiv.org/abs/2607.26910) · arXiv 2026 · `structured symbols` `V2`
+- [LLM-grounded Video Diffusion Models](https://arxiv.org/abs/2309.17444) · arXiv 2023 · `structured symbols`
+- [VideoDirectorGPT: Consistent Multi-scene Video Generation via LLM-Guided Planning](https://arxiv.org/abs/2309.15091) · arXiv 2023 · `structured symbols`
+- [DirectorLLM for Human-Centric Video Generation](https://arxiv.org/abs/2412.14484) · arXiv 2024 · `structured symbols`
+- [CinemaTraj: Composing Atomic Camera Trajectories for 3D Scenes with LLM Agents](https://arxiv.org/abs/2607.26910) · arXiv 2026 · `structured symbols`
 
 **Multi-Agent Narrative Planning** · 5
 
-- [Automated Movie Generation via Multi-Agent CoT Planning](https://arxiv.org/abs/2503.07314) · arXiv 2025 · `structured symbols` `V5`
-- [Camera Artist: A Multi-Agent Framework for Cinematic Language Storytelling Video Generation](https://arxiv.org/abs/2604.09195) · arXiv 2026 · `structured symbols` `V6`
-- [DramaDirector: Geometry-Guided Short Drama Generation](https://arxiv.org/abs/2606.24107) · arXiv 2026 · `structured symbols` `V6`
-- [StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration](https://arxiv.org/abs/2411.04925) · arXiv 2024 · `structured symbols` `V5`
-- [Mora: Enabling Generalist Video Generation via A Multi-Agent Framework](https://arxiv.org/abs/2403.13248) · arXiv 2024 · `structured symbols` `V5`
+- [Automated Movie Generation via Multi-Agent CoT Planning](https://arxiv.org/abs/2503.07314) · arXiv 2025 · `structured symbols`
+- [Camera Artist: A Multi-Agent Framework for Cinematic Language Storytelling Video Generation](https://arxiv.org/abs/2604.09195) · arXiv 2026 · `structured symbols`
+- [DramaDirector: Geometry-Guided Short Drama Generation](https://arxiv.org/abs/2606.24107) · arXiv 2026 · `structured symbols`
+- [StoryAgent: Customized Storytelling Video Generation via Multi-Agent Collaboration](https://arxiv.org/abs/2411.04925) · arXiv 2024 · `structured symbols`
+- [Mora: Enabling Generalist Video Generation via A Multi-Agent Framework](https://arxiv.org/abs/2403.13248) · arXiv 2024 · `structured symbols`
 
 **Event & Task Structure** · 2
 
-- [Chain of Event-Centric Causal Thought for Physically Plausible Video Generation](https://arxiv.org/abs/2603.09094) · arXiv 2026 · `visual states` `V1`
-- [EA-WM: Event-Aware World Models with Task-Specification Grounding for Long-Horizon Manipulation](https://arxiv.org/abs/2606.13053) · arXiv 2026 · `structured symbols` `V4`
+- [Chain of Event-Centric Causal Thought for Physically Plausible Video Generation](https://arxiv.org/abs/2603.09094) · arXiv 2026 · `visual states`
+- [EA-WM: Event-Aware World Models with Task-Specification Grounding for Long-Horizon Manipulation](https://arxiv.org/abs/2606.13053) · arXiv 2026 · `structured symbols`
 
 **Keyframe-Level Story Planning** · 2
 
-- [MAViS: A Multi-Agent Framework for Long-Sequence Video Storytelling](https://arxiv.org/abs/2508.08487) · arXiv 2025 · `visual states` `V5`
-- [CineVerse: Consistent Keyframe Synthesis for Cinematic Scene Composition](https://arxiv.org/abs/2504.19894) · arXiv 2025 · `visual states` `V6`
+- [MAViS: A Multi-Agent Framework for Long-Sequence Video Storytelling](https://arxiv.org/abs/2508.08487) · arXiv 2025 · `visual states`
+- [CineVerse: Consistent Keyframe Synthesis for Cinematic Scene Composition](https://arxiv.org/abs/2504.19894) · arXiv 2025 · `visual states`
 <!-- /auto:s2 -->
 
 <a name="2.3."></a>
@@ -427,45 +369,45 @@ Entering as a rewriter, which enriches an underspecified prompt with the physica
 The only source that genuinely exercises the carrier axis, appearing as a critic that inspects generated keyframes, a planner grounded in observed pixels, and a latent interface that conditions the generator without passing through text.
 
 <!-- auto:s3 -->
-*17 methods, in 7 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*17 methods, in 7 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **VLM Critique & Self-Refinement** · 1
 
-- [Bootstrapping Physics-Grounded Video Generation through VLM-Guided Iterative Self-Refinement](https://arxiv.org/abs/2511.20280) · arXiv 2025 · `natural language` `V1`
+- [Bootstrapping Physics-Grounded Video Generation through VLM-Guided Iterative Self-Refinement](https://arxiv.org/abs/2511.20280) · arXiv 2025 · `natural language`
 
 **VLM Physical Reasoning** · 4
 
-- [VLIPP: Towards Physically Plausible Video Generation with Vision and Language Informed Physical Prior](https://arxiv.org/abs/2503.23368) · arXiv 2025 · `structured symbols` `V1`
-- [SiPhy: Single-Image Physical Property Reasoning](https://arxiv.org/abs/2607.22355) · arXiv 2026 · `structured symbols` `V1`
-- [Physics Context Builders: A Modular Framework for Physical Reasoning in Vision-Language Models](https://arxiv.org/abs/2412.08619) · arXiv 2024 · `structured symbols` `V1`
-- [Compositional Physical Reasoning of Objects and Events from Videos](https://arxiv.org/abs/2408.02687) · arXiv 2024 · `structured symbols` `V1`
+- [VLIPP: Towards Physically Plausible Video Generation with Vision and Language Informed Physical Prior](https://arxiv.org/abs/2503.23368) · arXiv 2025 · `structured symbols`
+- [SiPhy: Single-Image Physical Property Reasoning](https://arxiv.org/abs/2607.22355) · arXiv 2026 · `structured symbols`
+- [Physics Context Builders: A Modular Framework for Physical Reasoning in Vision-Language Models](https://arxiv.org/abs/2412.08619) · arXiv 2024 · `structured symbols`
+- [Compositional Physical Reasoning of Objects and Events from Videos](https://arxiv.org/abs/2408.02687) · arXiv 2024 · `structured symbols`
 
 **Visual Chain-of-Thought Keyframes** · 3
 
-- [VChain: Chain-of-Visual-Thought for Reasoning in Video Generation](https://arxiv.org/abs/2510.05094) · arXiv 2025 · `visual states` `V1`
-- [CANVAS: Continuity-Aware Narratives via Visual Agentic Storyboarding](https://arxiv.org/abs/2604.13452) · arXiv 2026 · `visual states` `V6`
-- [VIPER: Visual In-Context Physics Reasoning for Physically Plausible Video Generation](https://arxiv.org/abs/2607.23472) · arXiv 2026 · `visual states` `V1`
+- [VChain: Chain-of-Visual-Thought for Reasoning in Video Generation](https://arxiv.org/abs/2510.05094) · arXiv 2025 · `visual states`
+- [CANVAS: Continuity-Aware Narratives via Visual Agentic Storyboarding](https://arxiv.org/abs/2604.13452) · arXiv 2026 · `visual states`
+- [VIPER: Visual In-Context Physics Reasoning for Physically Plausible Video Generation](https://arxiv.org/abs/2607.23472) · arXiv 2026 · `visual states`
 
 **Interleaved Visual-Textual CoT** · 2
 
-- [VTI-CoT: Visual-Textual Interleaved Chain of Thought for Video Reasoning](https://arxiv.org/abs/2606.05736) · arXiv 2026 · `visual states` `VX`
-- [Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via DiffusionBased RGB Intermediate Representations](https://arxiv.org/abs/2606.16783) · arXiv 2026 · `visual states` `VX`
+- [VTI-CoT: Visual-Textual Interleaved Chain of Thought for Video Reasoning](https://arxiv.org/abs/2606.05736) · arXiv 2026 · `visual states`
+- [Gen-VCoT: Generative Visual Chain-of-Thought Reasoning via DiffusionBased RGB Intermediate Representations](https://arxiv.org/abs/2606.16783) · arXiv 2026 · `visual states`
 
 **MLLM Narrative Conditioning** · 1
 
-- [Narrative Weaver: Towards Controllable Long-Range Visual Consistency with Multi-Modal Conditioning](https://arxiv.org/abs/2603.06688) · arXiv 2026 · `structured symbols` `V2`
+- [Narrative Weaver: Towards Controllable Long-Range Visual Consistency with Multi-Modal Conditioning](https://arxiv.org/abs/2603.06688) · arXiv 2026 · `structured symbols`
 
 **MLLM--Diffusion Latent Interfaces** · 3
 
-- [Exploring MLLM-Diffusion Information Transfer with MetaCanvas](https://arxiv.org/abs/2512.11464) · arXiv 2025 · `continuous latents` `VX`
-- [Think Before You Diffuse: Infusing Physical Rules into Video Diffusion2025](https://arxiv.org/abs/2505.21653) · arXiv 2025 · `continuous latents` `V1`
-- [Transfer between Modalities with MetaQueries](https://arxiv.org/abs/2504.06256) · arXiv 2025 · `continuous latents` `VX`
+- [Exploring MLLM-Diffusion Information Transfer with MetaCanvas](https://arxiv.org/abs/2512.11464) · arXiv 2025 · `continuous latents`
+- [Think Before You Diffuse: Infusing Physical Rules into Video Diffusion2025](https://arxiv.org/abs/2505.21653) · arXiv 2025 · `continuous latents`
+- [Transfer between Modalities with MetaQueries](https://arxiv.org/abs/2504.06256) · arXiv 2025 · `continuous latents`
 
 **Continuous Visual Thought Tokens** · 3
 
-- [CoCoVa: Chain of Continuous Vision-Language Thought for Latent Space Reasoning](https://arxiv.org/abs/2511.02360) · arXiv 2025 · `continuous latents` `VX`
-- [Chain-of-Visual-Thought: Teaching VLMs to See and Think Better with Continuous Visual Tokens](https://arxiv.org/abs/2511.19418) · arXiv 2025 · `continuous latents` `VX`
-- [ProLaViT: Learning Progressive Latent Visual Thoughts in Structured Latent Space](https://arxiv.org/abs/2607.02907) · arXiv 2026 · `continuous latents` `VX`
+- [CoCoVa: Chain of Continuous Vision-Language Thought for Latent Space Reasoning](https://arxiv.org/abs/2511.02360) · arXiv 2025 · `continuous latents`
+- [Chain-of-Visual-Thought: Teaching VLMs to See and Think Better with Continuous Visual Tokens](https://arxiv.org/abs/2511.19418) · arXiv 2025 · `continuous latents`
+- [ProLaViT: Learning Progressive Latent Visual Thoughts in Structured Latent Space](https://arxiv.org/abs/2607.02907) · arXiv 2026 · `continuous latents`
 <!-- /auto:s3 -->
 
 <a name="2.4."></a>
@@ -474,64 +416,64 @@ The only source that genuinely exercises the carrier axis, appearing as a critic
 Reasoning imported rather than learned: rigid-body engines, particle and Gaussian representations, symbolic equation discovery. Correct by construction for the phenomena they model, and silent outside them.
 
 <!-- auto:s4 -->
-*33 methods, in 8 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*33 methods, in 8 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **Rigid-Body & Physics Engines** · 5
 
-- [PhysGen: Rigid-Body Physics-Grounded Image-to-Video Generation](https://arxiv.org/abs/2409.18964) · arXiv 2024 · `structured symbols` `V1`
-- [PhysChoreo: Physics-Controllable Video Generation with Part-Aware Semantic Grounding](https://arxiv.org/abs/2511.20562) · arXiv 2025 · `structured symbols` `V1`
-- [NewtonGen: Physics-Consistent and Controllable Text-to-Video Generation via Neural Newtonian Dynamics](https://arxiv.org/abs/2509.21309) · arXiv 2025 · `structured symbols` `V1`
-- [PhysCtrl: Generative Physics for Controllable and Physics-Grounded Video Generation](https://arxiv.org/abs/2509.20358) · arXiv 2025 · `structured symbols` `V1`
-- [Learning to Generate Object Interactions with Physics-Guided Video Diffusion](https://arxiv.org/abs/2510.02284) · arXiv 2025 · `structured symbols` `V1`
+- [PhysGen: Rigid-Body Physics-Grounded Image-to-Video Generation](https://arxiv.org/abs/2409.18964) · arXiv 2024 · `structured symbols`
+- [PhysChoreo: Physics-Controllable Video Generation with Part-Aware Semantic Grounding](https://arxiv.org/abs/2511.20562) · arXiv 2025 · `structured symbols`
+- [NewtonGen: Physics-Consistent and Controllable Text-to-Video Generation via Neural Newtonian Dynamics](https://arxiv.org/abs/2509.21309) · arXiv 2025 · `structured symbols`
+- [PhysCtrl: Generative Physics for Controllable and Physics-Grounded Video Generation](https://arxiv.org/abs/2509.20358) · arXiv 2025 · `structured symbols`
+- [Learning to Generate Object Interactions with Physics-Guided Video Diffusion](https://arxiv.org/abs/2510.02284) · arXiv 2025 · `structured symbols`
 
 **Parameters & Equation Discovery** · 5
 
-- [Learning Explicit Physical Parameter Control and Benchmarking for Video Generation](https://arxiv.org/abs/2607.18924) · arXiv 2026 · `structured symbols` `V1`
-- [Physics-Grounded Motion Forecasting via Equation Discovery for Trajectory-Guided Image-to-Video Generation](https://arxiv.org/abs/2507.06830) · arXiv 2025 · `structured symbols` `V1`
-- [Goal Force: Teaching Video Models To Accomplish Physics-Conditioned Goals](https://arxiv.org/abs/2601.05848) · arXiv 2026 · `structured symbols` `V1`
-- [DeforM: Reasoning-Guided Physics-Aware Video Generation via Spatial-Temporal Masking](https://arxiv.org/abs/2607.18664) · arXiv 2026 · `structured symbols` `V1`
-- [PhysEditWorld: A Large-Scale Dataset Toward Physics-Editable World Models](https://arxiv.org/abs/2606.26694) · arXiv 2026 · `structured symbols` `V1`
+- [Learning Explicit Physical Parameter Control and Benchmarking for Video Generation](https://arxiv.org/abs/2607.18924) · arXiv 2026 · `structured symbols`
+- [Physics-Grounded Motion Forecasting via Equation Discovery for Trajectory-Guided Image-to-Video Generation](https://arxiv.org/abs/2507.06830) · arXiv 2025 · `structured symbols`
+- [Goal Force: Teaching Video Models To Accomplish Physics-Conditioned Goals](https://arxiv.org/abs/2601.05848) · arXiv 2026 · `structured symbols`
+- [DeforM: Reasoning-Guided Physics-Aware Video Generation via Spatial-Temporal Masking](https://arxiv.org/abs/2607.18664) · arXiv 2026 · `structured symbols`
+- [PhysEditWorld: A Large-Scale Dataset Toward Physics-Editable World Models](https://arxiv.org/abs/2606.26694) · arXiv 2026 · `structured symbols`
 
 **Physical Language & Continuous Dynamics** · 3
 
-- [PhiZero: A World Model Built Around Physical Language](https://arxiv.org/abs/2607.28624) · arXiv 2026 · `structured symbols` `V1`
-- [ODEWorld: A Continuous Predictive Architecture via Physical-Time Flow](https://arxiv.org/abs/2607.27924) · arXiv 2026 · `structured symbols` `V1`
-- [APT: Atomic Physical Transitions for Causal Video Generation](https://arxiv.org/abs/2606.18586) · arXiv 2026 · `structured symbols` `V1`
+- [PhiZero: A World Model Built Around Physical Language](https://arxiv.org/abs/2607.28624) · arXiv 2026 · `structured symbols`
+- [ODEWorld: A Continuous Predictive Architecture via Physical-Time Flow](https://arxiv.org/abs/2607.27924) · arXiv 2026 · `structured symbols`
+- [APT: Atomic Physical Transitions for Causal Video Generation](https://arxiv.org/abs/2606.18586) · arXiv 2026 · `structured symbols`
 
 **3D/4D Geometric Conditioning** · 6
 
-- [ReVision: Refining Video Diffusion with Explicit 3D Motion Modeling](https://arxiv.org/abs/2504.21855) · arXiv 2025 · `structured symbols` `V2`
-- [PhysGM: Large Physical Gaussian Model for Feed-Forward 4D Synthesis](https://arxiv.org/abs/2508.13911) · arXiv 2025 · `structured symbols` `V1`
-- [3D Scene Prompting for Scene-Consistent Camera-Controllable Video Generation](https://arxiv.org/abs/2510.14945) · arXiv 2025 · `structured symbols` `V2`
-- [Physics3D: Learning Physical Properties from 3D Assets](https://arxiv.org/abs/2406.04338) · arXiv 2024 · `structured symbols` `V1`
-- [Diffusion as Shader: 3D-aware Video Diffusion for Versatile Video Generation Control](https://arxiv.org/abs/2501.03847) · arXiv 2025 · `structured symbols` `V2`
-- [Generative Rendering: Controllable 4D-Guided Video Generation with 2D Diffusion Models](https://arxiv.org/abs/2312.01409) · arXiv 2023 · `structured symbols` `V2`
+- [ReVision: Refining Video Diffusion with Explicit 3D Motion Modeling](https://arxiv.org/abs/2504.21855) · arXiv 2025 · `structured symbols`
+- [PhysGM: Large Physical Gaussian Model for Feed-Forward 4D Synthesis](https://arxiv.org/abs/2508.13911) · arXiv 2025 · `structured symbols`
+- [3D Scene Prompting for Scene-Consistent Camera-Controllable Video Generation](https://arxiv.org/abs/2510.14945) · arXiv 2025 · `structured symbols`
+- [Physics3D: Learning Physical Properties from 3D Assets](https://arxiv.org/abs/2406.04338) · arXiv 2024 · `structured symbols`
+- [Diffusion as Shader: 3D-aware Video Diffusion for Versatile Video Generation Control](https://arxiv.org/abs/2501.03847) · arXiv 2025 · `structured symbols`
+- [Generative Rendering: Controllable 4D-Guided Video Generation with 2D Diffusion Models](https://arxiv.org/abs/2312.01409) · arXiv 2023 · `structured symbols`
 
 **Geometry-Guided Keyframes** · 3
 
-- [PhyRPR: Training-Free Physics-Constrained Video Generation](https://arxiv.org/abs/2601.09255) · arXiv 2026 · `visual states` `V1`
-- [CausalMotion: Structured Physical Reasoning as Keyframe and Trajectory Guidance for Training-Free Video Generation](https://arxiv.org/abs/2606.14317) · arXiv 2026 · `visual states` `V1`
-- [OrthoPhys: Physically Plausible Video Generation with Orthogonal-View Geometry Guidance](https://arxiv.org/abs/2603.18639) · arXiv 2026 · `visual states` `V2`
+- [PhyRPR: Training-Free Physics-Constrained Video Generation](https://arxiv.org/abs/2601.09255) · arXiv 2026 · `visual states`
+- [CausalMotion: Structured Physical Reasoning as Keyframe and Trajectory Guidance for Training-Free Video Generation](https://arxiv.org/abs/2606.14317) · arXiv 2026 · `visual states`
+- [OrthoPhys: Physically Plausible Video Generation with Orthogonal-View Geometry Guidance](https://arxiv.org/abs/2603.18639) · arXiv 2026 · `visual states`
 
 **Latent Physical State** · 4
 
-- [Phantom: Physics-Infused Video Generation via Joint Modeling of Visual and Latent Physical Dynamics](https://arxiv.org/abs/2604.08503) · arXiv 2026 · `continuous latents` `V1`
-- [PhysRAG: Enhancing Physics-Awareness in Video Generation via RetrievalAugmented Generation](https://arxiv.org/abs/2606.26916) · arXiv 2026 · `continuous latents` `V1`
-- [PhysVideoGenerator: Towards Physically Aware Video Generation via Latent Physics Guidance](https://arxiv.org/abs/2601.03665) · arXiv 2026 · `continuous latents` `V1`
-- [DeVA: Decoupled Video-Action Model with physical guidance for robot policy learning](https://arxiv.org/abs/2607.24159) · arXiv 2026 · `continuous latents` `V4`
+- [Phantom: Physics-Infused Video Generation via Joint Modeling of Visual and Latent Physical Dynamics](https://arxiv.org/abs/2604.08503) · arXiv 2026 · `continuous latents`
+- [PhysRAG: Enhancing Physics-Awareness in Video Generation via RetrievalAugmented Generation](https://arxiv.org/abs/2606.26916) · arXiv 2026 · `continuous latents`
+- [PhysVideoGenerator: Towards Physically Aware Video Generation via Latent Physics Guidance](https://arxiv.org/abs/2601.03665) · arXiv 2026 · `continuous latents`
+- [DeVA: Decoupled Video-Action Model with physical guidance for robot policy learning](https://arxiv.org/abs/2607.24159) · arXiv 2026 · `continuous latents`
 
 **Embodied Physical Grounding** · 4
 
-- [From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence](https://arxiv.org/abs/2607.26903) · arXiv 2026 · `structured symbols` `V4`
-- [ContactFlow: A video action conditioning that transfers across embodiments](https://arxiv.org/abs/2607.26579) · arXiv 2026 · `structured symbols` `V4`
-- [Robot-Factored World Models via Robot Rendering](https://arxiv.org/abs/2607.22535) · arXiv 2026 · `structured symbols` `V4`
-- [CausalDrive: Real-time Causal World Models for Autonomous Driving](https://arxiv.org/abs/2606.15341) · arXiv 2026 · `structured symbols` `V4`
+- [From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence](https://arxiv.org/abs/2607.26903) · arXiv 2026 · `structured symbols`
+- [ContactFlow: A video action conditioning that transfers across embodiments](https://arxiv.org/abs/2607.26579) · arXiv 2026 · `structured symbols`
+- [Robot-Factored World Models via Robot Rendering](https://arxiv.org/abs/2607.22535) · arXiv 2026 · `structured symbols`
+- [CausalDrive: Real-time Causal World Models for Autonomous Driving](https://arxiv.org/abs/2606.15341) · arXiv 2026 · `structured symbols`
 
 **Simulator-in-the-Loop** · 3
 
-- [PhyMAGIC: Physical Motion-Aware Generative Inference with Confidenceguided LLM](https://arxiv.org/abs/2505.16456) · arXiv 2025 · `the generation itself` `V1`
-- [Physical Simulator In-the-Loop Video Generation](https://arxiv.org/abs/2603.06408) · arXiv 2026 · `the generation itself` `V1`
-- [Mind-Studio: Executable World Models with Lookahead Evaluation for Partially Observable Games](https://arxiv.org/abs/2606.16070) · arXiv 2026 · `the generation itself` `V4`
+- [PhyMAGIC: Physical Motion-Aware Generative Inference with Confidenceguided LLM](https://arxiv.org/abs/2505.16456) · arXiv 2025 · `the generation itself`
+- [Physical Simulator In-the-Loop Video Generation](https://arxiv.org/abs/2603.06408) · arXiv 2026 · `the generation itself`
+- [Mind-Studio: Executable World Models with Lookahead Evaluation for Partially Observable Games](https://arxiv.org/abs/2606.16070) · arXiv 2026 · `the generation itself`
 <!-- /auto:s4 -->
 
 <a name="2.5."></a>
@@ -540,44 +482,44 @@ Reasoning imported rather than learned: rigid-body engines, particle and Gaussia
 Reasoning produced by search rather than construction — test-time scaling, backtracking, verifiable and physics-aware rewards, process-level supervision. Only ever as good as the verifier.
 
 <!-- auto:s5 -->
-*25 methods, in 4 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*25 methods, in 4 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **Verifiable Rewards & RL** · 7
 
-- [PhysRVG: Physics-Aware Unified Reinforcement Learning for Video Generative Models](https://arxiv.org/abs/2601.11087) · arXiv 2026 · `the generation itself` `V1`
-- [Video Models Can Reason with Verifiable Rewards](https://arxiv.org/abs/2605.15458) · arXiv 2026 · `the generation itself` `VX`
-- [PhyGDPO: Physics-Aware Groupwise Direct Preference Optimization for Physically Consistent Text-to-Video Generation](https://arxiv.org/abs/2512.24551) · arXiv 2025 · `the generation itself` `V1`
-- [Improving the Physics of Video Generation with VJEPA-2 Reward Signal](https://arxiv.org/abs/2510.21840) · arXiv 2025 · `the generation itself` `V1`
-- [Reasoning Physical Video Generation with Diffusion Timestep Tokens via Reinforcement Learning](https://arxiv.org/abs/2504.15932) · arXiv 2025 · `the generation itself` `V1`
-- [PAVXploreRL: Physical-Action-Visual World Model Reinforcement Learning with Action Exploration](https://arxiv.org/abs/2607.16602) · arXiv 2026 · `the generation itself` `V4`
-- [InfLVG: Reinforce Inference-Time Consistent Long Video Generation with GRPO](https://arxiv.org/abs/2505.17574) · arXiv 2025 · `the generation itself` `V2`
+- [PhysRVG: Physics-Aware Unified Reinforcement Learning for Video Generative Models](https://arxiv.org/abs/2601.11087) · arXiv 2026 · `the generation itself`
+- [Video Models Can Reason with Verifiable Rewards](https://arxiv.org/abs/2605.15458) · arXiv 2026 · `the generation itself`
+- [PhyGDPO: Physics-Aware Groupwise Direct Preference Optimization for Physically Consistent Text-to-Video Generation](https://arxiv.org/abs/2512.24551) · arXiv 2025 · `the generation itself`
+- [Improving the Physics of Video Generation with VJEPA-2 Reward Signal](https://arxiv.org/abs/2510.21840) · arXiv 2025 · `the generation itself`
+- [Reasoning Physical Video Generation with Diffusion Timestep Tokens via Reinforcement Learning](https://arxiv.org/abs/2504.15932) · arXiv 2025 · `the generation itself`
+- [PAVXploreRL: Physical-Action-Visual World Model Reinforcement Learning with Action Exploration](https://arxiv.org/abs/2607.16602) · arXiv 2026 · `the generation itself`
+- [InfLVG: Reinforce Inference-Time Consistent Long Video Generation with GRPO](https://arxiv.org/abs/2505.17574) · arXiv 2025 · `the generation itself`
 
 **Test-Time Scaling & Search** · 7
 
-- [Self-Refining Video Sampling](https://arxiv.org/abs/2601.18577) · arXiv 2026 · `the generation itself` `VX`
-- [UniT: Unified Multimodal Chain-of-Thought Test-time Scaling](https://arxiv.org/abs/2602.12279) · arXiv 2026 · `the generation itself` `VX`
-- [Video-T1: Test-Time Scaling for Video Generation](https://arxiv.org/abs/2503.18942) · arXiv 2025 · `the generation itself` `VX`
-- [Thinking in Frames: How Visual Context and Test-Time Scaling Empower Video Reasoning](https://arxiv.org/abs/2601.21037) · arXiv 2026 · `the generation itself` `VX`
-- [Temporal Backtracking Search for Test-time Generative Video Reasoning](https://arxiv.org/abs/2606.13861) · arXiv 2026 · `the generation itself` `VX`
-- [Inference-Time Scaling for Joint Audio-Video Generation](https://arxiv.org/abs/2606.03183) · arXiv 2026 · `the generation itself` `V0`
-- [VIGOR: VIdeo Geometry-Oriented Reward for Temporal Generative Alignment](https://arxiv.org/abs/2603.16271) · arXiv 2026 · `the generation itself` `V2`
+- [Self-Refining Video Sampling](https://arxiv.org/abs/2601.18577) · arXiv 2026 · `the generation itself`
+- [UniT: Unified Multimodal Chain-of-Thought Test-time Scaling](https://arxiv.org/abs/2602.12279) · arXiv 2026 · `the generation itself`
+- [Video-T1: Test-Time Scaling for Video Generation](https://arxiv.org/abs/2503.18942) · arXiv 2025 · `the generation itself`
+- [Thinking in Frames: How Visual Context and Test-Time Scaling Empower Video Reasoning](https://arxiv.org/abs/2601.21037) · arXiv 2026 · `the generation itself`
+- [Temporal Backtracking Search for Test-time Generative Video Reasoning](https://arxiv.org/abs/2606.13861) · arXiv 2026 · `the generation itself`
+- [Inference-Time Scaling for Joint Audio-Video Generation](https://arxiv.org/abs/2606.03183) · arXiv 2026 · `the generation itself`
+- [VIGOR: VIdeo Geometry-Oriented Reward for Temporal Generative Alignment](https://arxiv.org/abs/2603.16271) · arXiv 2026 · `the generation itself`
 
 **Agentic Planning & Closed Loops** · 8
 
-- [NEWTON: Agentic Planning for Physically Grounded Video Generation](https://arxiv.org/abs/2605.18396) · arXiv 2026 · `the generation itself` `V1`
-- [ViMax: Agentic Video Generation](https://arxiv.org/abs/2606.07649) · arXiv 2026 · `the generation itself` `V5`
-- [Closed-Loop Triplet Synergistic Generation for Long-Form Video](https://arxiv.org/abs/2606.16184) · arXiv 2026 · `the generation itself` `V5`
-- [StoryBlender: Inter-Shot Consistent and Editable 3D Storyboard with Spatial-temporal Dynamics](https://arxiv.org/abs/2604.03315) · arXiv 2026 · `the generation itself` `V6`
-- [CoAgent: Collaborative Planning and Consistency Agent for Coherent Video Generation](https://arxiv.org/abs/2512.22536) · arXiv 2025 · `the generation itself` `V2`
-- [AesopAgent: Agent-driven Evolutionary System on Story-to-Video Production](https://arxiv.org/abs/2403.07952) · arXiv 2024 · `the generation itself` `V5`
-- [CollabVR: Collaborative Video Reasoning with Vision-Language and Video Generation Models](https://arxiv.org/abs/2605.08735) · arXiv 2026 · `the generation itself` `VX`
-- [Action Agent: Agentic Video Generation Meets Flow-Constrained Diffusion](https://arxiv.org/abs/2605.01477) · arXiv 2026 · `the generation itself` `V4`
+- [NEWTON: Agentic Planning for Physically Grounded Video Generation](https://arxiv.org/abs/2605.18396) · arXiv 2026 · `the generation itself`
+- [ViMax: Agentic Video Generation](https://arxiv.org/abs/2606.07649) · arXiv 2026 · `the generation itself`
+- [Closed-Loop Triplet Synergistic Generation for Long-Form Video](https://arxiv.org/abs/2606.16184) · arXiv 2026 · `the generation itself`
+- [StoryBlender: Inter-Shot Consistent and Editable 3D Storyboard with Spatial-temporal Dynamics](https://arxiv.org/abs/2604.03315) · arXiv 2026 · `the generation itself`
+- [CoAgent: Collaborative Planning and Consistency Agent for Coherent Video Generation](https://arxiv.org/abs/2512.22536) · arXiv 2025 · `the generation itself`
+- [AesopAgent: Agent-driven Evolutionary System on Story-to-Video Production](https://arxiv.org/abs/2403.07952) · arXiv 2024 · `the generation itself`
+- [CollabVR: Collaborative Video Reasoning with Vision-Language and Video Generation Models](https://arxiv.org/abs/2605.08735) · arXiv 2026 · `the generation itself`
+- [Action Agent: Agentic Video Generation Meets Flow-Constrained Diffusion](https://arxiv.org/abs/2605.01477) · arXiv 2026 · `the generation itself`
 
 **Verification-Guided Generation** · 3
 
-- [OpenCoF: Learning to Reason Through Video Generation](https://arxiv.org/abs/2607.08763) · arXiv 2026 · `the generation itself` `VX`
-- [Planning with Sketch-Guided Verification for Physics-Aware Video Generation](https://arxiv.org/abs/2511.17450) · arXiv 2025 · `visual states` `V1`
-- [Grounding Video Models to Actions through Goal-Conditioned Exploration](https://arxiv.org/abs/2411.07223) · arXiv 2024 · `structured symbols` `V4`
+- [OpenCoF: Learning to Reason Through Video Generation](https://arxiv.org/abs/2607.08763) · arXiv 2026 · `the generation itself`
+- [Planning with Sketch-Guided Verification for Physics-Aware Video Generation](https://arxiv.org/abs/2511.17450) · arXiv 2025 · `visual states`
+- [Grounding Video Models to Actions through Goal-Conditioned Exploration](https://arxiv.org/abs/2411.07223) · arXiv 2024 · `structured symbols`
 <!-- /auto:s5 -->
 
 <a name="2.6."></a>
@@ -586,40 +528,40 @@ Reasoning produced by search rather than construction — test-time scaling, bac
 Competence installed during training through an auxiliary predictive objective. The exact complement of S4: it degrades gracefully rather than falling silent, and buys that generality by being impossible to audit.
 
 <!-- auto:s6 -->
-*21 methods, in 4 families. Tags give the carrier the intermediate state is written in ([§3](#3.)) and the grounding of the problem targeted ([§1.7](#1.7.)); an S1 method has no carrier by definition.*
+*21 methods, in 4 families. The tag gives the carrier the intermediate state is written in ([§3](#3.)); an S1 method has no carrier by definition.*
 
 **Feature & Relational Alignment** · 5
 
-- [VideoREPA: Learning Physics for Video Generation through Relational Alignment with Foundation Models](https://arxiv.org/abs/2505.23656) · arXiv 2025 · `continuous latents` `V1`
-- [PhysAlign: Physics-Coherent Image-to-Video Generation through Feature and 3D Representation Alignment](https://arxiv.org/abs/2603.13770) · arXiv 2026 · `continuous latents` `V1`
-- [Physics-Informed Video Generation via Mixture-of-Experts Latent Alignment](https://arxiv.org/abs/2606.04737) · arXiv 2026 · `continuous latents` `V1`
-- [ProPhy: Progressive Physical Alignment for Dynamic World Simulation](https://arxiv.org/abs/2512.05564) · arXiv 2025 · `continuous latents` `V1`
-- [DiReCT: Disentangled Regularization of Contrastive Trajectories for Physics-Refined Video Generation](https://arxiv.org/abs/2603.25931) · arXiv 2026 · `continuous latents` `V1`
+- [VideoREPA: Learning Physics for Video Generation through Relational Alignment with Foundation Models](https://arxiv.org/abs/2505.23656) · arXiv 2025 · `continuous latents`
+- [PhysAlign: Physics-Coherent Image-to-Video Generation through Feature and 3D Representation Alignment](https://arxiv.org/abs/2603.13770) · arXiv 2026 · `continuous latents`
+- [Physics-Informed Video Generation via Mixture-of-Experts Latent Alignment](https://arxiv.org/abs/2606.04737) · arXiv 2026 · `continuous latents`
+- [ProPhy: Progressive Physical Alignment for Dynamic World Simulation](https://arxiv.org/abs/2512.05564) · arXiv 2025 · `continuous latents`
+- [DiReCT: Disentangled Regularization of Contrastive Trajectories for Physics-Refined Video Generation](https://arxiv.org/abs/2603.25931) · arXiv 2026 · `continuous latents`
 
 **JEPA & Predictive Representations** · 7
 
-- [QQWorld: Quantile-Quantile Matching for World Model Regularization](https://arxiv.org/abs/2607.28415) · arXiv 2026 · `continuous latents` `V4`
-- [Temporally Centered SIGReg Improves Multi-Task World Model Learning: From Analysis to Method](https://arxiv.org/abs/2607.26924) · arXiv 2026 · `continuous latents` `V4`
-- [Temporal-Distance JEPA: Plan-Aware Representation Learning for Latent World Model Predictive Control](https://arxiv.org/abs/2607.25337) · arXiv 2026 · `continuous latents` `V4`
-- [INTACT: Isomorphic Intent-to-Action Learning for Search-Free World Models](https://arxiv.org/abs/2607.26056) · arXiv 2026 · `continuous latents` `V4`
-- [Concept-Guided Spatial Regularization for World Models in Atari Pong](https://arxiv.org/abs/2607.15142) · arXiv 2026 · `continuous latents` `V4`
-- [Depth-Regularized JEPA World Models Learn More Transferable Representations from Real Outdoor Robot Data](https://arxiv.org/abs/2607.16314) · arXiv 2026 · `continuous latents` `V4`
-- [V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning](https://arxiv.org/abs/2506.09985) · arXiv 2025 · `continuous latents` `V4`
+- [QQWorld: Quantile-Quantile Matching for World Model Regularization](https://arxiv.org/abs/2607.28415) · arXiv 2026 · `continuous latents`
+- [Temporally Centered SIGReg Improves Multi-Task World Model Learning: From Analysis to Method](https://arxiv.org/abs/2607.26924) · arXiv 2026 · `continuous latents`
+- [Temporal-Distance JEPA: Plan-Aware Representation Learning for Latent World Model Predictive Control](https://arxiv.org/abs/2607.25337) · arXiv 2026 · `continuous latents`
+- [INTACT: Isomorphic Intent-to-Action Learning for Search-Free World Models](https://arxiv.org/abs/2607.26056) · arXiv 2026 · `continuous latents`
+- [Concept-Guided Spatial Regularization for World Models in Atari Pong](https://arxiv.org/abs/2607.15142) · arXiv 2026 · `continuous latents`
+- [Depth-Regularized JEPA World Models Learn More Transferable Representations from Real Outdoor Robot Data](https://arxiv.org/abs/2607.16314) · arXiv 2026 · `continuous latents`
+- [V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning](https://arxiv.org/abs/2506.09985) · arXiv 2025 · `continuous latents`
 
 **Latent Action & Video-Action Models** · 5
 
-- [EgoGenesis: Egocentric World-Action Modeling with Online Anchored Projective Memory and Action-3D RoPE](https://arxiv.org/abs/2607.28243) · arXiv 2026 · `continuous latents` `V4`
-- [WAM4D: Fast 4D World Action Model via Spatial Register Tokens](https://arxiv.org/abs/2606.14048) · arXiv 2026 · `continuous latents` `V4`
-- [DriveLaW: Unifying Planning and Video Generation in a Latent Driving World](https://arxiv.org/abs/2512.23421) · arXiv 2025 · `continuous latents` `V4`
-- [Motus: A Unified Latent Action World Model](https://arxiv.org/abs/2512.13030) · arXiv 2025 · `continuous latents` `V4`
-- [Video Prediction Policy: A Generalist Robot Policy with Predictive Visual Representations](https://arxiv.org/abs/2412.14803) · arXiv 2024 · `continuous latents` `V4`
+- [EgoGenesis: Egocentric World-Action Modeling with Online Anchored Projective Memory and Action-3D RoPE](https://arxiv.org/abs/2607.28243) · arXiv 2026 · `continuous latents`
+- [WAM4D: Fast 4D World Action Model via Spatial Register Tokens](https://arxiv.org/abs/2606.14048) · arXiv 2026 · `continuous latents`
+- [DriveLaW: Unifying Planning and Video Generation in a Latent Driving World](https://arxiv.org/abs/2512.23421) · arXiv 2025 · `continuous latents`
+- [Motus: A Unified Latent Action World Model](https://arxiv.org/abs/2512.13030) · arXiv 2025 · `continuous latents`
+- [Video Prediction Policy: A Generalist Robot Policy with Predictive Visual Representations](https://arxiv.org/abs/2412.14803) · arXiv 2024 · `continuous latents`
 
 **Regularisation for Long Rollout** · 4
 
-- [Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control](https://arxiv.org/abs/2607.26657) · arXiv 2026 · `continuous latents` `V4`
-- [Mitigating Compounding Error via Video Representation Regularization](https://arxiv.org/abs/2607.27036) · arXiv 2026 · `continuous latents` `V2`
-- [Mental World Modeling](https://arxiv.org/abs/2607.27201) · arXiv 2026 · `continuous latents` `V6`
-- [Reinformed Dreamer: An Asymmetric World Model Efficiently Trained through Latent Guidance](https://arxiv.org/abs/2607.26040) · arXiv 2026 · `continuous latents` `V4`
+- [Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control](https://arxiv.org/abs/2607.26657) · arXiv 2026 · `continuous latents`
+- [Mitigating Compounding Error via Video Representation Regularization](https://arxiv.org/abs/2607.27036) · arXiv 2026 · `continuous latents`
+- [Mental World Modeling](https://arxiv.org/abs/2607.27201) · arXiv 2026 · `continuous latents`
+- [Reinformed Dreamer: An Asymmetric World Model Efficiently Trained through Latent Guidance](https://arxiv.org/abs/2607.26040) · arXiv 2026 · `continuous latents`
 <!-- /auto:s6 -->
 
 <a name="3."></a>
@@ -713,79 +655,79 @@ What an instrument may legitimately score is also fixed by the cell its tasks fa
 What a benchmark can legitimately do is fixed by the cell its tasks fall in: row A admits comparison against the answer, row B can only test membership in the admissible set, and row C has to score the path. A protocol that compares row-B or row-C output frame by frame against one recorded clip is measuring adherence to a sample rather than correctness ([§1.3](#1.3.)).
 
 <!-- auto:inst -->
-*48 benchmarks and datasets, grouped by what they check; the V rows are the labelling of [§1.7](#1.7.). Protocols and metrics are in [§4.2](#4.2.), audits of the judges in [§4.3](#4.3.), and analyses with no task set of their own in [§6.2](#6.2.).*
+*48 benchmarks and datasets, grouped by what they check. Protocols and metrics are in [§4.2](#4.2.), audits of the judges in [§4.3](#4.3.), and analyses with no task set of their own in [§6.2](#6.2.).*
 
 **Physical Law** · 16
 
-- [What-If World: A Causal Benchmark for General World Models in Embodied Scenarios](https://arxiv.org/abs/2605.27589) · arXiv 2026 · `V1`
-- [YoCausal: How Far is Video Generation from World Model? A Causality Perspective](https://arxiv.org/abs/2605.30346) · arXiv 2026 · `V1`
-- [Towards World Simulator: Crafting Physical Commonsense-Based Benchmark for Video Generation](https://arxiv.org/abs/2410.05363) · arXiv 2024 · `V1`
-- [VideoPhy: Evaluating Physical Commonsense for Video Generation](https://arxiv.org/abs/2406.03520) · arXiv 2024 · `V1`
-- [PhyWorldBench: A Comprehensive Evaluation of Physical Realism in Text-to-Video Models](https://arxiv.org/abs/2507.13428) · arXiv 2025 · `V1`
-- [VideoPhy-2: A Challenging Action-Centric Physical Commonsense Evaluation in Video Generation](https://arxiv.org/abs/2503.06800) · arXiv 2025 · `V1`
-- [Do generative video models understand physical principles?](https://arxiv.org/abs/2501.09038) · arXiv 2025 · `V1`
-- [PhyGround: Benchmarking Physical Reasoning in Generative World Models](https://arxiv.org/abs/2605.10806) · arXiv 2026 · `V1`
-- [Morpheus: Benchmarking Physical Reasoning of Video Generative Models with Real Physical Experiments](https://arxiv.org/abs/2504.02918) · arXiv 2025 · `V1`
-- [WorldBench: Disambiguating Physics for Diagnostic Evaluation of World Models](https://arxiv.org/abs/2601.21282) · arXiv 2026 · `V1`
-- [Apple-PI: Benchmarking Thinking with Video Towards Law-Grounded Physical Intelligence](https://arxiv.org/abs/2607.16401) · arXiv 2026 · `V1`
-- [Benchmarking Scientific Understanding and Reasoning for Video Generation using VideoScience-Bench](https://arxiv.org/abs/2512.02942) · arXiv 2025 · `V1`
-- [T2VWorldBench: A Benchmark for Evaluating World Knowledge in Text-to-Video Generation](https://arxiv.org/abs/2507.18107) · arXiv 2025 · `V1`
-- [PhysicsMind: Sim and Real Mechanics Benchmarking for Physical Reasoning and Prediction in Foundational VLMs and World Models](https://arxiv.org/abs/2601.16007) · arXiv 2026 · `V1`
-- [World ModelBench: Judging Video Generation Models As World Models](https://arxiv.org/abs/2502.20694) · arXiv 2025 · `V1`
-- [T2VPhysBench: A First-Principles Benchmark for Physical Consistency in Text-to-Video Generation](https://arxiv.org/abs/2505.00337) · arXiv 2025 · `V1`
+- [What-If World: A Causal Benchmark for General World Models in Embodied Scenarios](https://arxiv.org/abs/2605.27589) · arXiv 2026
+- [YoCausal: How Far is Video Generation from World Model? A Causality Perspective](https://arxiv.org/abs/2605.30346) · arXiv 2026
+- [Towards World Simulator: Crafting Physical Commonsense-Based Benchmark for Video Generation](https://arxiv.org/abs/2410.05363) · arXiv 2024
+- [VideoPhy: Evaluating Physical Commonsense for Video Generation](https://arxiv.org/abs/2406.03520) · arXiv 2024
+- [PhyWorldBench: A Comprehensive Evaluation of Physical Realism in Text-to-Video Models](https://arxiv.org/abs/2507.13428) · arXiv 2025
+- [VideoPhy-2: A Challenging Action-Centric Physical Commonsense Evaluation in Video Generation](https://arxiv.org/abs/2503.06800) · arXiv 2025
+- [Do generative video models understand physical principles?](https://arxiv.org/abs/2501.09038) · arXiv 2025
+- [PhyGround: Benchmarking Physical Reasoning in Generative World Models](https://arxiv.org/abs/2605.10806) · arXiv 2026
+- [Morpheus: Benchmarking Physical Reasoning of Video Generative Models with Real Physical Experiments](https://arxiv.org/abs/2504.02918) · arXiv 2025
+- [WorldBench: Disambiguating Physics for Diagnostic Evaluation of World Models](https://arxiv.org/abs/2601.21282) · arXiv 2026
+- [Apple-PI: Benchmarking Thinking with Video Towards Law-Grounded Physical Intelligence](https://arxiv.org/abs/2607.16401) · arXiv 2026
+- [Benchmarking Scientific Understanding and Reasoning for Video Generation using VideoScience-Bench](https://arxiv.org/abs/2512.02942) · arXiv 2025
+- [T2VWorldBench: A Benchmark for Evaluating World Knowledge in Text-to-Video Generation](https://arxiv.org/abs/2507.18107) · arXiv 2025
+- [PhysicsMind: Sim and Real Mechanics Benchmarking for Physical Reasoning and Prediction in Foundational VLMs and World Models](https://arxiv.org/abs/2601.16007) · arXiv 2026
+- [World ModelBench: Judging Video Generation Models As World Models](https://arxiv.org/abs/2502.20694) · arXiv 2025
+- [T2VPhysBench: A First-Principles Benchmark for Physical Consistency in Text-to-Video Generation](https://arxiv.org/abs/2505.00337) · arXiv 2025
 
 **Structural Persistence** · 4
 
-- [WorldScore: A Unified Evaluation Benchmark for World Generation](https://arxiv.org/abs/2504.00983) · arXiv 2025 · `V2`
-- [GeoPhys: The Geometry of Physical Plausibility](https://arxiv.org/abs/2606.20707) · arXiv 2026 · `V2`
-- [GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction](https://arxiv.org/abs/2606.24829) · arXiv 2026 · `V2`
-- [Out of Sight, Out of Mind? Evaluating State Evolution in Video World Models](https://arxiv.org/abs/2603.13215) · arXiv 2026 · `V2`
+- [WorldScore: A Unified Evaluation Benchmark for World Generation](https://arxiv.org/abs/2504.00983) · arXiv 2025
+- [GeoPhys: The Geometry of Physical Plausibility](https://arxiv.org/abs/2606.20707) · arXiv 2026
+- [GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction](https://arxiv.org/abs/2606.24829) · arXiv 2026
+- [Out of Sight, Out of Mind? Evaluating State Evolution in Video World Models](https://arxiv.org/abs/2603.13215) · arXiv 2026
 
 **Formal Rules** · 4
 
-- [RULER-Bench: Probing Rule-based Reasoning Abilities of Next-level Video Generation Models for Vision Foundation Intelligence](https://arxiv.org/abs/2512.02622) · arXiv 2025 · `V3`
-- [Reasoning via Video: The First Evaluation of Video Models'Reasoning Abilities through Maze-Solving Tasks](https://arxiv.org/abs/2511.15065) · arXiv 2025 · `V3`
-- [Video Models Start to Solve Chess, Maze, Sudoku, Mental Rotation, and Raven' s Matrices](https://arxiv.org/abs/2512.05969) · arXiv 2025 · `V3`
-- [Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification](https://arxiv.org/abs/2411.16718) · arXiv 2024 · `V3`
+- [RULER-Bench: Probing Rule-based Reasoning Abilities of Next-level Video Generation Models for Vision Foundation Intelligence](https://arxiv.org/abs/2512.02622) · arXiv 2025
+- [Reasoning via Video: The First Evaluation of Video Models'Reasoning Abilities through Maze-Solving Tasks](https://arxiv.org/abs/2511.15065) · arXiv 2025
+- [Video Models Start to Solve Chess, Maze, Sudoku, Mental Rotation, and Raven' s Matrices](https://arxiv.org/abs/2512.05969) · arXiv 2025
+- [Neuro-Symbolic Evaluation of Text-to-Video Models using Formal Verification](https://arxiv.org/abs/2411.16718) · arXiv 2024
 
 **Goal Attainment** · 2
 
-- [ReactSim-Bench: Benchmarking Reactive Behavior World Model Simulation in Autonomous Driving](https://arxiv.org/abs/2606.14058) · arXiv 2026 · `V4`
-- [Omni-WorldBench: Towards a Comprehensive Interaction-Centric Benchmark for World Models](https://arxiv.org/abs/2603.22212) · arXiv 2026 · `V4`
+- [ReactSim-Bench: Benchmarking Reactive Behavior World Model Simulation in Autonomous Driving](https://arxiv.org/abs/2606.14058) · arXiv 2026
+- [Omni-WorldBench: Towards a Comprehensive Interaction-Centric Benchmark for World Models](https://arxiv.org/abs/2603.22212) · arXiv 2026
 
 **Procedure & Order** · 2
 
-- [LoCoT2V-Bench: Benchmarking Long-Form and Complex Text-to-Video Generation](https://arxiv.org/abs/2510.26412) · arXiv 2025 · `V5`
-- [SLVMEval: Synthetic Meta Evaluation Benchmark for Text-to-Long Video Generation](https://arxiv.org/abs/2603.29186) · arXiv 2026 · `V5`
+- [LoCoT2V-Bench: Benchmarking Long-Form and Complex Text-to-Video Generation](https://arxiv.org/abs/2510.26412) · arXiv 2025
+- [SLVMEval: Synthetic Meta Evaluation Benchmark for Text-to-Long Video Generation](https://arxiv.org/abs/2603.29186) · arXiv 2026
 
 **Convention & Intent** · 3
 
-- [SVBench: Evaluation of Video Generation Models on Social Reasoning](https://arxiv.org/abs/2512.21507) · arXiv 2025 · `V6`
-- [NarrLV: Towards a Comprehensive Narrative-Centric Evaluation for Long Video Generation Models](https://arxiv.org/abs/2507.11245) · arXiv 2025 · `V6`
-- [MovieBench: A Hierarchical Movie Level Dataset for Long Video Generation](https://arxiv.org/abs/2411.15262) · arXiv 2024 · `V6`
+- [SVBench: Evaluation of Video Generation Models on Social Reasoning](https://arxiv.org/abs/2512.21507) · arXiv 2025
+- [NarrLV: Towards a Comprehensive Narrative-Centric Evaluation for Long Video Generation Models](https://arxiv.org/abs/2507.11245) · arXiv 2025
+- [MovieBench: A Hierarchical Movie Level Dataset for Long Video Generation](https://arxiv.org/abs/2411.15262) · arXiv 2024
 
 **General-Purpose Suites** · 6
 
-- [TiViBench: Benchmarking Think-in-Video Reasoning for Video Generative Models](https://arxiv.org/abs/2511.13704) · arXiv 2025 · `VX`
-- [V-ReasonBench: Toward Unified Reasoning Benchmark Suite for Video Generation Models](https://arxiv.org/abs/2511.16668) · arXiv 2025 · `VX`
-- [MME-CoF-Pro: Evaluating Reasoning Coherence in Video Generative Models with Text and Visual Hints](https://arxiv.org/abs/2603.20194) · arXiv 2026 · `VX`
-- [WorldReasonBench: Human-Aligned Stress Testing of Video Generators as Future World-State Predictors](https://arxiv.org/abs/2605.10434) · arXiv 2026 · `VX`
-- [Thinking in Video: Can Video Generators Really Reason About the Real World?](https://arxiv.org/abs/2607.17523) · arXiv 2026 · `VX`
-- [Can World Simulators Reason? Gen-ViRe: A Generative Visual Reasoning Benchmark](https://arxiv.org/abs/2511.13853) · arXiv 2025 · `VX`
+- [TiViBench: Benchmarking Think-in-Video Reasoning for Video Generative Models](https://arxiv.org/abs/2511.13704) · arXiv 2025
+- [V-ReasonBench: Toward Unified Reasoning Benchmark Suite for Video Generation Models](https://arxiv.org/abs/2511.16668) · arXiv 2025
+- [MME-CoF-Pro: Evaluating Reasoning Coherence in Video Generative Models with Text and Visual Hints](https://arxiv.org/abs/2603.20194) · arXiv 2026
+- [WorldReasonBench: Human-Aligned Stress Testing of Video Generators as Future World-State Predictors](https://arxiv.org/abs/2605.10434) · arXiv 2026
+- [Thinking in Video: Can Video Generators Really Reason About the Real World?](https://arxiv.org/abs/2607.17523) · arXiv 2026
+- [Can World Simulators Reason? Gen-ViRe: A Generative Visual Reasoning Benchmark](https://arxiv.org/abs/2511.13853) · arXiv 2025
 
 **Quality, Control & Safety** · 11
 
-- [VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness](https://arxiv.org/abs/2503.21755) · arXiv 2025 · `V0`
-- [Can You Count to Nine? A Human Evaluation Benchmark for Counting Limits in Modern Text-to-Video Models](https://arxiv.org/abs/2504.04051) · arXiv 2025 · `V0`
-- [T2VSafetyBench: Evaluating the Safety of Text-to-Video Generative Models](https://arxiv.org/abs/2407.05965) · arXiv 2024 · `V0`
-- [VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models](https://arxiv.org/abs/2411.13503) · arXiv 2024 · `V0`
-- [VBench: Comprehensive Benchmark Suite for Video Generative Models](https://arxiv.org/abs/2311.17982) · arXiv 2023 · `V0`
-- [EvalCrafter: Benchmarking and Evaluating Large Video Generation Models](https://arxiv.org/abs/2310.11440) · arXiv 2023 · `V0`
-- [T2V-CompBench: A Comprehensive Benchmark for Compositional Text-to-Video Generation](https://arxiv.org/abs/2407.14505) · arXiv 2024 · `V0`
-- [T2VTextBench: A Human Evaluation Benchmark for Textual Control in Video Generation Models](https://arxiv.org/abs/2505.04946) · arXiv 2025 · `V0`
-- [VANE-Bench: Video Anomaly Evaluation Benchmark for Conversational LMMs](https://arxiv.org/abs/2406.10326) · arXiv 2024 · `V0`
-- [Evaluation of Text-to-Video Generation Models: A Dynamics Perspective](https://arxiv.org/abs/2407.01094) · arXiv 2024 · `V0`
-- [Human-Activity AGV Quality Assessment: A Benchmark Dataset and an Objective Evaluation Metric](https://arxiv.org/abs/2411.16619) · arXiv 2024 · `V0`
+- [VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness](https://arxiv.org/abs/2503.21755) · arXiv 2025
+- [Can You Count to Nine? A Human Evaluation Benchmark for Counting Limits in Modern Text-to-Video Models](https://arxiv.org/abs/2504.04051) · arXiv 2025
+- [T2VSafetyBench: Evaluating the Safety of Text-to-Video Generative Models](https://arxiv.org/abs/2407.05965) · arXiv 2024
+- [VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models](https://arxiv.org/abs/2411.13503) · arXiv 2024
+- [VBench: Comprehensive Benchmark Suite for Video Generative Models](https://arxiv.org/abs/2311.17982) · arXiv 2023
+- [EvalCrafter: Benchmarking and Evaluating Large Video Generation Models](https://arxiv.org/abs/2310.11440) · arXiv 2023
+- [T2V-CompBench: A Comprehensive Benchmark for Compositional Text-to-Video Generation](https://arxiv.org/abs/2407.14505) · arXiv 2024
+- [T2VTextBench: A Human Evaluation Benchmark for Textual Control in Video Generation Models](https://arxiv.org/abs/2505.04946) · arXiv 2025
+- [VANE-Bench: Video Anomaly Evaluation Benchmark for Conversational LMMs](https://arxiv.org/abs/2406.10326) · arXiv 2024
+- [Evaluation of Text-to-Video Generation Models: A Dynamics Perspective](https://arxiv.org/abs/2407.01094) · arXiv 2024
+- [Human-Activity AGV Quality Assessment: A Benchmark Dataset and an Objective Evaluation Metric](https://arxiv.org/abs/2411.16619) · arXiv 2024
 <!-- /auto:inst -->
 
 <a name="4.2."></a>
@@ -796,13 +738,13 @@ Protocols that score the intermediate steps rather than only the final frame, an
 <!-- auto:proto -->
 *7 entries. What each one scores is the read-out, not the task set.*
 
-- [Reference-Free Assessment of Physical Consistency in World Model-based Video Generation](https://arxiv.org/abs/2606.22363) · arXiv 2026 · `V1`
-- [Event-Conditioned Diagnostics of Kinematic, Contact, and Object-Permanence Fields in Passive Object-State World Models](https://arxiv.org/abs/2606.28455) · arXiv 2026 · `V2`
-- [Trimming the Long-Tail of Visual World Modeling Evaluation](https://arxiv.org/abs/2606.24256) · arXiv 2026 · `VX`
-- [Certified World Models: Predictability Across Configuration, Horizon, and Resolution](https://arxiv.org/abs/2606.13092) · arXiv 2026 · `VX`
-- [VIPER: Process-aware Evaluation for Generative Video Reasoning](https://arxiv.org/abs/2512.24952) · arXiv 2025 · `VX`
-- [VideoScore2: A Generalized Video Generation Evaluation Metric](https://arxiv.org/abs/2509.22799) · arXiv 2025 · `V0`
-- [Scalable Policy Evaluation with Video World Models](https://arxiv.org/abs/2511.11520) · arXiv 2025 · `V4`
+- [Reference-Free Assessment of Physical Consistency in World Model-based Video Generation](https://arxiv.org/abs/2606.22363) · arXiv 2026
+- [Event-Conditioned Diagnostics of Kinematic, Contact, and Object-Permanence Fields in Passive Object-State World Models](https://arxiv.org/abs/2606.28455) · arXiv 2026
+- [Trimming the Long-Tail of Visual World Modeling Evaluation](https://arxiv.org/abs/2606.24256) · arXiv 2026
+- [Certified World Models: Predictability Across Configuration, Horizon, and Resolution](https://arxiv.org/abs/2606.13092) · arXiv 2026
+- [VIPER: Process-aware Evaluation for Generative Video Reasoning](https://arxiv.org/abs/2512.24952) · arXiv 2025
+- [VideoScore2: A Generalized Video Generation Evaluation Metric](https://arxiv.org/abs/2509.22799) · arXiv 2025
+- [Scalable Policy Evaluation with Video World Models](https://arxiv.org/abs/2511.11520) · arXiv 2025
 <!-- /auto:proto -->
 
 <a name="4.3."></a>
@@ -813,9 +755,9 @@ The field has begun auditing its own judges, finding that the vision models used
 <!-- auto:audit -->
 *3 entries. Read a reported gain against the verifier that certified it.*
 
-- [Physics-IQ Verified](https://arxiv.org/abs/2606.18943) · arXiv 2026 · `V1`
-- [Geometric Collapse: When Vision Models Fail to Verify Physical Causality](https://arxiv.org/abs/2607.06871) · arXiv 2026 · `V1`
-- [When a Verified World Model Still Loses: Play-Adequacy vs Prediction-Accuracy in LLM-Synthesized Code World Models](https://arxiv.org/abs/2607.14169) · arXiv 2026 · `V4`
+- [Physics-IQ Verified](https://arxiv.org/abs/2606.18943) · arXiv 2026
+- [Geometric Collapse: When Vision Models Fail to Verify Physical Causality](https://arxiv.org/abs/2607.06871) · arXiv 2026
+- [When a Verified World Model Still Loses: Play-Adequacy vs Prediction-Accuracy in LLM-Synthesized Code World Models](https://arxiv.org/abs/2607.14169) · arXiv 2026
 <!-- /auto:audit -->
 
 <a name="5."></a>
@@ -966,15 +908,15 @@ Diagnostic work on whether visual realism and physical understanding are decoupl
 <!-- auto:diag -->
 *9 entries. Studies and positions that fix no task set of their own.*
 
-- [Demystifying Video Reasoning](https://arxiv.org/abs/2603.16870) · arXiv 2026 · `VX`
-- [Hallucination in World Models is Predictable and Preventable](https://arxiv.org/abs/2606.27326) · arXiv 2026 · `V4`
-- [What Can Latent World Models Know? Physical Parameter Identifiability in Multimodal Predictive Representations](https://arxiv.org/abs/2607.27017) · arXiv 2026 · `V1`
-- [How Should World Models Be Evaluated for Embodied Decision-Making? A Decision-Making-Centric Position](https://arxiv.org/abs/2606.15032) · arXiv 2026 · `V4`
-- [A Mechanistic View on Video Generation as World Models](https://arxiv.org/abs/2601.17067) · arXiv 2026 · `VX`
-- [Video models are zero-shot learners and reasoners](https://arxiv.org/abs/2509.20328) · arXiv 2025 · `VX`
-- [Multimodal Chain-of-Thought Reasoning: A Comprehensive Survey](https://arxiv.org/abs/2503.12605) · arXiv 2025 · `VX`
-- [Are Video Models Ready as Zero-Shot Reasoners? An Empirical Study with the MME-CoF Benchmark](https://arxiv.org/abs/2510.26802) · arXiv 2025 · `VX`
-- [How Far is Video Generation from World Model: A Physical Law Perspective](https://arxiv.org/abs/2411.02385) · arXiv 2024 · `V1`
+- [Demystifying Video Reasoning](https://arxiv.org/abs/2603.16870) · arXiv 2026
+- [Hallucination in World Models is Predictable and Preventable](https://arxiv.org/abs/2606.27326) · arXiv 2026
+- [What Can Latent World Models Know? Physical Parameter Identifiability in Multimodal Predictive Representations](https://arxiv.org/abs/2607.27017) · arXiv 2026
+- [How Should World Models Be Evaluated for Embodied Decision-Making? A Decision-Making-Centric Position](https://arxiv.org/abs/2606.15032) · arXiv 2026
+- [A Mechanistic View on Video Generation as World Models](https://arxiv.org/abs/2601.17067) · arXiv 2026
+- [Video models are zero-shot learners and reasoners](https://arxiv.org/abs/2509.20328) · arXiv 2025
+- [Multimodal Chain-of-Thought Reasoning: A Comprehensive Survey](https://arxiv.org/abs/2503.12605) · arXiv 2025
+- [Are Video Models Ready as Zero-Shot Reasoners? An Empirical Study with the MME-CoF Benchmark](https://arxiv.org/abs/2510.26802) · arXiv 2025
+- [How Far is Video Generation from World Model: A Physical Law Perspective](https://arxiv.org/abs/2411.02385) · arXiv 2024
 <!-- /auto:diag -->
 
 <a name="7."></a>
