@@ -2,7 +2,7 @@
 
 *A curated list of works on **generative visual reasoning**: using image and video generation to solve visual problems, rather than to depict them.*
 
-![overview](./figures/survey_photo.png)
+![overview](./figures/survey_photo2.png)
 
 
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/ziqihuangg/Awesome-Generative-Visual-Reasoning)
